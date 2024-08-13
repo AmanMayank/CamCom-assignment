@@ -1,8 +1,8 @@
 import CrosswordCell from "./CrosswordCell";
 
-const CrosswordGrid = ({ data, handleInput }) => {
+const CrosswordGrid = ({ data, handleInput, activeClue }) => {
   return (
-    <div className="mt-11 ml-4 grid grid-row-5">
+    <div className="mt-11  ml-4 grid grid-row-5 min-w-[480px]">
       {data.map((row, rowIndex) => (
         <div className="" key={rowIndex}>
           {row.map((cell, colIndex) => (

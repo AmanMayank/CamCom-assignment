@@ -4,14 +4,14 @@ import { MdOutlineEdit } from "react-icons/md";
 
 const Header = () => {
   return (
-    <div className="top-0 left-0 h-12 border-2 w-full bg-slate-200 flex justify-between items-center">
+    <div className="top-0 left-0 h-12 border-2 w-full bg-slate-200 flex justify-between items-center min-w-[480px]">
       <div>
         <IoSettingsOutline size={22} />
       </div>
 
       <div className="flex items-center justify-center">
         07:12
-        <span>
+        <span className="ml-2">
           <IoPause size={22} />
         </span>
       </div>
