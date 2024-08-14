@@ -1,13 +1,67 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CrosswordGrid from "./CrosswordGrid";
 
 const HeroComponent = ({ data, handleInput, Clues }) => {
-  const firstValue = Clues[0].Across["1"];
+  const firstValueAcross = Clues[0].Across["1"];
+  const firstValueDown = Clues[0].Down["1"];
   const [activeClue, setActiveClue] = useState({
     name: "A",
     key: "1",
-    value: firstValue,
+    value: firstValueAcross,
   });
+
+  const [adjacentClue, setAdjacentClue] = useState({
+    name: "",
+    key: "",
+    value: "",
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const across = Clues[0].Across;
+    const down = Clues[0].Down;
+
+    if (adjacentClue.name === activeClue.name) {
+      setAdjacentClue({
+        name: activeClue.name === "A" ? "D" : "A",
+        key: "1",
+        value: activeClue.name === "A" ? firstValueDown : firstValueAcross,
+      });
+    }
+
+    if (activeClue.name === "A") {
+      if (activeClue.key === "1") {
+        setCurrentIndex("0");
+      } else {
+        setCurrentIndex(activeClue.key - 4);
+      }
+      if (down.hasOwnProperty(activeClue.key)) {
+        setAdjacentClue({
+          name: "D",
+          key: activeClue.key,
+          value: down[activeClue.key],
+        });
+      }
+      return;
+    }
+
+    if (activeClue.name === "D") {
+      if (activeClue.key === "5") {
+        setCurrentIndex(0);
+      } else {
+        setCurrentIndex(activeClue.key);
+      }
+      if (across.hasOwnProperty(activeClue.key)) {
+        setAdjacentClue({
+          name: "A",
+          key: activeClue.key,
+          value: across[activeClue.key],
+        });
+      }
+      return;
+    }
+  }, [activeClue, Clues, adjacentClue.name, firstValueAcross, firstValueDown]);
 
   const handleClick = (name, key, value) => {
     setActiveClue({
@@ -16,10 +70,6 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
       value,
     });
   };
-
-  console.log(Clues[0].Across["1"]);
-
-  const { currentname, currentKey, currentValue } = activeClue;
 
   return (
     <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-5 justify-between">
@@ -33,6 +83,7 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
           data={data}
           handleInput={handleInput}
           activeClue={activeClue}
+          currentIndex={currentIndex}
         />
       </div>
 
@@ -50,8 +101,8 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
                   name="A"
                   key={key}
                   className={`leading-8 lg:leading-10 flex cursor-pointer ${
-                    activeClue.value === value ? "border-2" : ""
-                  }`}
+                    activeClue.value === value ? "border-4" : ""
+                  } ${adjacentClue.value === value ? "border-2" : ""}`}
                 >
                   <strong className="mr-3 ml-2">{key} </strong>
                   <p>{value}</p>
@@ -68,8 +119,8 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
                   onClick={() => handleClick("D", key, value)}
                   key={key}
                   className={`leading-8 lg:leading-10 flex cursor-pointer ${
-                    activeClue.value === value ? "border-2" : ""
-                  }`}
+                    activeClue.value === value ? "border-4" : ""
+                  } ${adjacentClue.value === value ? "border-2" : ""}`}
                 >
                   <strong className="mr-3 ml-2">{key} </strong>
                   <p>{value}</p>

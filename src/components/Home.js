@@ -4,12 +4,20 @@ import Header from "./Header";
 import HeroComponent from "./HeroComponent";
 
 const Home = () => {
-  const crosswordData = [
+  const crosswordAnswer = [
     ["A", "P", "P", "L", "E"],
     ["B", null, null, null, "E"],
     ["C", "A", "T", null, "S"],
     ["D", null, "R", null, null],
     ["E", "L", "I", "M", "E"],
+  ];
+
+  const crosswordData = [
+    ["B", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", "B"],
   ];
 
   const Clues = [

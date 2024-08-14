@@ -1,10 +1,10 @@
 import CrosswordCell from "./CrosswordCell";
 
-const CrosswordGrid = ({ data, handleInput, activeClue }) => {
+const CrosswordGrid = ({ data, handleInput, activeClue, currentIndex }) => {
   return (
     <div className="mt-11  ml-4 grid grid-row-5 min-w-[480px]">
       {data.map((row, rowIndex) => (
-        <div className="" key={rowIndex}>
+        <div className="relative" key={rowIndex}>
           {row.map((cell, colIndex) => (
             <CrosswordCell
               key={`${rowIndex}-${colIndex}`}
@@ -14,6 +14,8 @@ const CrosswordGrid = ({ data, handleInput, activeClue }) => {
               handleInput={handleInput}
               rowIndex={rowIndex}
               colIndex={colIndex}
+              activeClue={activeClue}
+              currentIndex={currentIndex}
             />
           ))}
         </div>
