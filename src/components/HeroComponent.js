@@ -17,11 +17,15 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
   });
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeGrid, setActiveGrid] = useState({
+    rgrid: 0,
+    cgrid: 1,
+  });
+
+  const across = Clues[0].Across;
+  const down = Clues[0].Down;
 
   useEffect(() => {
-    const across = Clues[0].Across;
-    const down = Clues[0].Down;
-
     if (adjacentClue.name === activeClue.name) {
       setAdjacentClue({
         name: activeClue.name === "A" ? "D" : "A",
@@ -31,8 +35,8 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
     }
 
     if (activeClue.name === "A") {
-      if (activeClue.key === "1") {
-        setCurrentIndex("0");
+      if (activeClue.key === 1) {
+        setCurrentIndex(0);
       } else {
         setCurrentIndex(activeClue.key - 4);
       }
@@ -47,7 +51,7 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
     }
 
     if (activeClue.name === "D") {
-      if (activeClue.key === "5") {
+      if (activeClue.key === 5) {
         setCurrentIndex(0);
       } else {
         setCurrentIndex(activeClue.key);
@@ -61,15 +65,101 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
       }
       return;
     }
-  }, [activeClue, Clues, adjacentClue.name, firstValueAcross, firstValueDown]);
+  }, [
+    activeClue,
+    Clues,
+    adjacentClue.name,
+    firstValueAcross,
+    firstValueDown,
+    across,
+    down,
+  ]);
+
+  const handleOnGridClick = (rowIndex, colIndex, currentIndex) => {
+    if (activeClue.name === "A") {
+      setCurrentIndex(rowIndex);
+      let key;
+      switch (rowIndex) {
+        case 0:
+          key = 1;
+          break;
+        case 1:
+          key = 5;
+          break;
+        case 2:
+          key = 6;
+          break;
+        case 3:
+          key = 7;
+          break;
+        case 4:
+          key = 8;
+          break;
+
+        default:
+          key = 1;
+          break;
+      }
+      // console.log(across[key]);
+      setActiveClue({
+        name: "A",
+        key: key,
+        value: across[key],
+      });
+    } else {
+      setCurrentIndex(colIndex);
+      setActiveClue({
+        name: "D",
+        key: colIndex === 0 ? 5 : colIndex,
+        value: down[colIndex === 0 ? 5 : colIndex],
+      });
+    }
+
+    setActiveGrid({
+      rgrid: rowIndex,
+      cgrid: colIndex,
+    });
+
+    console.log(rowIndex, colIndex, currentIndex);
+  };
 
   const handleClick = (name, key, value) => {
     setActiveClue({
       name,
-      key,
+      key: Number(key),
       value,
     });
+
+    if (name === "D") {
+      if (Number(key) === 5) {
+        setActiveGrid({
+          rgrid: 1,
+          cgrid: 0,
+        });
+      } else {
+        setActiveGrid({
+          rgrid: 0,
+          cgrid: Number(key),
+        });
+      }
+    }
+
+    if (name === "A") {
+      if (Number(key) === 1) {
+        setActiveGrid({
+          rgrid: 0,
+          cgrid: 1,
+        });
+      } else {
+        setActiveGrid({
+          rgrid: key - 4,
+          cgrid: 0,
+        });
+      }
+    }
   };
+
+  console.log(activeGrid);
 
   return (
     <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-5 justify-between">
@@ -84,6 +174,8 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
           handleInput={handleInput}
           activeClue={activeClue}
           currentIndex={currentIndex}
+          handleOnGridClick={handleOnGridClick}
+          activeGrid={activeGrid}
         />
       </div>
 
