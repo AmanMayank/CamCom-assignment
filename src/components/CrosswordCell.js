@@ -53,16 +53,9 @@ const CrosswordCell = ({
         maxLength="1"
         value={value || ""}
         onFocus={onFocus}
-        className={`w-24 h-24 text-center text-xl border-2 ${
-          isFocused ? "focused bg-yellow-700" : ""
-        }  
-       ${backgroundColor()}
-       ${
-         activeGrid.rgrid === rowIndex && activeGrid.cgrid === colIndex
-           ? "cursor:none"
-           : ""
-       }
-      `}
+        className={`w-24 h-24 text-center text-xl border-2 caret-transparent 
+                 ${backgroundColor()}
+                `}
         //   readOnly
         onChange={(e) => handleInput(rowIndex, colIndex, e.target.value)}
         onClick={(e) => handleOnGridClick(rowIndex, colIndex, currentIndex)}
