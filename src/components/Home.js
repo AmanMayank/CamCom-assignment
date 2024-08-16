@@ -41,7 +41,7 @@ const Home = () => {
 
   const [grid, setGrid] = useState(crosswordData);
 
-  function handleInput(row, col, value) {
+  function updateGrid(row, col, value) {
     console.log("coming here", row, col, value);
     const newGrid = [...grid];
     newGrid[row][col] = value.toUpperCase();
@@ -51,7 +51,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <HeroComponent data={grid} handleInput={handleInput} Clues={Clues} />
+      <HeroComponent data={grid} updateGrid={updateGrid} Clues={Clues} />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </>
   );

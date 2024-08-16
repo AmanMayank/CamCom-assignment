@@ -6,13 +6,14 @@ const CrosswordCell = React.forwardRef(
       value,
       // isFocused,
       onFocus,
-      handleInput,
+      updateGrid,
       rowIndex,
       colIndex,
       activeClue,
       currentIndex,
       handleOnGridClick,
       activeGrid,
+      nextFocus,
     },
     ref
   ) => {
@@ -62,7 +63,10 @@ const CrosswordCell = React.forwardRef(
           className={`w-24 h-24 text-center text-xl border-2 caret-transparent 
                  ${backgroundColor()}
                 `}
-          onChange={(e) => handleInput(rowIndex, colIndex, e.target.value)}
+          onChange={(e) => {
+            updateGrid(rowIndex, colIndex, e.target.value);
+            nextFocus();
+          }}
           onClick={(e) => handleOnGridClick(rowIndex, colIndex, currentIndex)}
         />
       </>

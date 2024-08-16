@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import CrosswordGrid from "./CrosswordGrid";
 
-const HeroComponent = ({ data, handleInput, Clues }) => {
+const HeroComponent = ({ data, updateGrid, Clues }) => {
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
   const [activeClue, setActiveClue] = useState({
@@ -173,6 +173,9 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
     console.log(rgrid, cgrid);
     switch (e.key) {
       case "ArrowUp":
+        if (rgrid === 1 && cgrid === 0) {
+          return;
+        }
         if (rgrid > 0) {
           setActiveGrid({ rgrid: rgrid - 1, cgrid });
         }
@@ -184,6 +187,9 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
 
         break;
       case "ArrowDown":
+        if (rgrid === 3 && cgrid === 4) {
+          return;
+        }
         if (rgrid < data.length - 1) {
           setActiveGrid({ rgrid: rgrid + 1, cgrid });
         }
@@ -195,6 +201,9 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
 
         break;
       case "ArrowLeft":
+        if (rgrid === 0 && cgrid === 1) {
+          return;
+        }
         if (cgrid > 0) {
           setActiveGrid({ rgrid, cgrid: cgrid - 1 });
         }
@@ -208,6 +217,9 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
 
         break;
       case "ArrowRight":
+        if (rgrid === 4 && cgrid === 3) {
+          return;
+        }
         if (cgrid < data[rgrid].length - 1) {
           setActiveGrid({ rgrid, cgrid: cgrid + 1 });
         }
@@ -223,6 +235,28 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
     }
   };
 
+  const nextFocus = () => {
+    const { rgrid, cgrid } = activeGrid;
+    console.log("the length of the data is", rgrid, cgrid, data.length);
+    if (activeClue.name === "D") {
+      if (rgrid === 3 && cgrid === 4) {
+        setActiveGrid({ rgrid: 1, cgrid: 0 });
+        handleOnGridClick(1, 0);
+        return;
+      }
+      if (rgrid < data.length - 1) {
+        setActiveGrid({ rgrid: rgrid + 1, cgrid });
+        handleOnGridClick(rgrid + 1, cgrid);
+        return;
+      }
+      if (rgrid === data.length - 1 && cgrid < data.length - 1) {
+        setActiveGrid({ rgrid: 0, cgrid: cgrid + 1 });
+        handleOnGridClick(0, cgrid + 1);
+        return;
+      }
+    }
+  };
+
   return (
     <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-5 justify-between">
       <div className="flex-col justify-center items-center gap-6 min-w-[680px] mx-auto">
@@ -233,13 +267,14 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
         </div>
         <CrosswordGrid
           data={data}
-          handleInput={handleInput}
+          updateGrid={updateGrid}
           activeClue={activeClue}
           currentIndex={currentIndex}
           handleOnGridClick={handleOnGridClick}
           activeGrid={activeGrid}
           handleKeyPress={handleKeyPress}
           handleFocus={handleFocus}
+          nextFocus={nextFocus}
         />
       </div>
 

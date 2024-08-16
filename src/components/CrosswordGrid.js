@@ -3,13 +3,14 @@ import CrosswordCell from "./CrosswordCell";
 
 const CrosswordGrid = ({
   data,
-  handleInput,
+  updateGrid,
   activeClue,
   currentIndex,
   handleOnGridClick,
   activeGrid,
   handleKeyPress,
   handleFocus,
+  nextFocus,
 }) => {
   const inputRefs = useRef([]);
 
@@ -35,13 +36,14 @@ const CrosswordGrid = ({
               //   activeGrid.rgrid === rowIndex && activeGrid.cgrid === colIndex
               // }
               onFocus={() => handleFocus(rowIndex, colIndex)}
-              handleInput={handleInput}
+              updateGrid={updateGrid}
               rowIndex={rowIndex}
               colIndex={colIndex}
               activeClue={activeClue}
               currentIndex={currentIndex}
               handleOnGridClick={handleOnGridClick}
               activeGrid={activeGrid}
+              nextFocus={nextFocus}
               ref={(el) => {
                 if (!inputRefs.current[rowIndex]) {
                   inputRefs.current[rowIndex] = [];
