@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CrosswordGrid from "./CrosswordGrid";
 
 const HeroComponent = ({ data, handleInput, Clues }) => {
@@ -35,7 +35,7 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
     }
 
     if (activeClue.name === "A") {
-      if (activeClue.key === 1) {
+      if (activeClue.key === 1 || activeClue.key === "1") {
         setCurrentIndex(0);
       } else {
         setCurrentIndex(activeClue.key - 4);
@@ -73,34 +73,38 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
     firstValueDown,
     across,
     down,
+    currentIndex,
   ]);
+
+  const getAcrossKey = (rowIndex) => {
+    switch (rowIndex) {
+      case 0:
+        return 1;
+        break;
+      case 1:
+        return 5;
+        break;
+      case 2:
+        return 6;
+        break;
+      case 3:
+        return 7;
+        break;
+      case 4:
+        return 8;
+        break;
+
+      default:
+        return 1;
+        break;
+    }
+  };
 
   const handleOnGridClick = (rowIndex, colIndex, currentIndex) => {
     if (activeClue.name === "A") {
       setCurrentIndex(rowIndex);
-      let key;
-      switch (rowIndex) {
-        case 0:
-          key = 1;
-          break;
-        case 1:
-          key = 5;
-          break;
-        case 2:
-          key = 6;
-          break;
-        case 3:
-          key = 7;
-          break;
-        case 4:
-          key = 8;
-          break;
+      let key = getAcrossKey(rowIndex);
 
-        default:
-          key = 1;
-          break;
-      }
-      // console.log(across[key]);
       setActiveClue({
         name: "A",
         key: key,
@@ -115,15 +119,19 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
       });
     }
 
+    handleFocus(rowIndex, colIndex);
+
+    // console.log(rowIndex, colIndex, currentIndex);
+  };
+
+  const handleFocus = (rowIndex, colIndex) => {
     setActiveGrid({
       rgrid: rowIndex,
       cgrid: colIndex,
     });
-
-    console.log(rowIndex, colIndex, currentIndex);
   };
 
-  const handleClick = (name, key, value) => {
+  const handleClueClick = (name, key, value) => {
     setActiveClue({
       name,
       key: Number(key),
@@ -159,7 +167,61 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
     }
   };
 
-  console.log(activeGrid);
+  const handleKeyPress = (e) => {
+    const { rgrid, cgrid } = activeGrid;
+    let key;
+    console.log(rgrid, cgrid);
+    switch (e.key) {
+      case "ArrowUp":
+        if (rgrid > 0) {
+          setActiveGrid({ rgrid: rgrid - 1, cgrid });
+        }
+        setActiveClue({
+          name: "D",
+          key: cgrid === 0 ? 5 : cgrid,
+          value: down[cgrid === 0 ? 5 : cgrid],
+        });
+
+        break;
+      case "ArrowDown":
+        if (rgrid < data.length - 1) {
+          setActiveGrid({ rgrid: rgrid + 1, cgrid });
+        }
+        setActiveClue({
+          name: "D",
+          key: cgrid === 0 ? 5 : cgrid,
+          value: down[cgrid === 0 ? 5 : cgrid],
+        });
+
+        break;
+      case "ArrowLeft":
+        if (cgrid > 0) {
+          setActiveGrid({ rgrid, cgrid: cgrid - 1 });
+        }
+
+        key = getAcrossKey(rgrid);
+        setActiveClue({
+          name: "A",
+          key: key,
+          value: across[key],
+        });
+
+        break;
+      case "ArrowRight":
+        if (cgrid < data[rgrid].length - 1) {
+          setActiveGrid({ rgrid, cgrid: cgrid + 1 });
+        }
+        key = getAcrossKey(rgrid);
+        setActiveClue({
+          name: "A",
+          key: key,
+          value: across[key],
+        });
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-5 justify-between">
@@ -176,6 +238,8 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
           currentIndex={currentIndex}
           handleOnGridClick={handleOnGridClick}
           activeGrid={activeGrid}
+          handleKeyPress={handleKeyPress}
+          handleFocus={handleFocus}
         />
       </div>
 
@@ -189,7 +253,7 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
             <ul>
               {Object.entries(clue.Across).map(([key, value]) => (
                 <li
-                  onClick={() => handleClick("A", key, value)}
+                  onClick={() => handleClueClick("A", key, value)}
                   name="A"
                   key={key}
                   className={`leading-8 lg:leading-10 flex cursor-pointer ${
@@ -208,7 +272,7 @@ const HeroComponent = ({ data, handleInput, Clues }) => {
             <ul>
               {Object.entries(clue.Down).map(([key, value]) => (
                 <li
-                  onClick={() => handleClick("D", key, value)}
+                  onClick={() => handleClueClick("D", key, value)}
                   key={key}
                   className={`leading-8 lg:leading-10 flex cursor-pointer ${
                     activeClue.value === value ? "border-4" : ""
