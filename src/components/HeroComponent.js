@@ -169,7 +169,6 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
 
   const handleKeyPress = (e) => {
     const { rgrid, cgrid } = activeGrid;
-    console.log(e.key);
     if (e.key === "Backspace") {
       updateGrid(rgrid, cgrid, "");
     }
@@ -247,111 +246,144 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
     }
   };
 
-  const findNextEmptyCellRow = (currentRow, currentCol) => {
-    for (let row = currentRow; row < data.length; row++) {
+  const findNextEmptyCellRow = (crosswordData, currentRow, currentCol) => {
+    const numRows = crosswordData.length;
+    const numCols = crosswordData[0].length;
+
+    const searchRight = (row, col) => {
+      for (let c = col + 1; c < numCols; c++) {
+        if (crosswordData[row][c] === "") {
+          return { row, col: c };
+        }
+        return null;
+      }
+    };
+
+    const searchLeft = (row, col) => {
+      for (let c = 0; c < col; c++) {
+        if (crosswordData[row][c] === "") {
+          return { row, col: c };
+        }
+        return null;
+      }
+    };
+
+    const searchNextRow = (row) => {
       for (
-        let col = row === currentRow ? currentCol + 1 : 0;
-        col < data.length;
-        col++
+        let nextRow = (row + 1) % numRows;
+        nextRow !== row;
+        nextRow = (nextRow + 1) % numCols
       ) {
-        if (data[row][col] === "") {
-          return { row, col };
+        for (let c = 0; c < numCols; c++) {
+          if (crosswordData[nextRow][c] === "") {
+            return { row: nextRow, col: c };
+          }
         }
       }
+      return null;
+    };
+
+    let result = searchRight(currentRow, currentCol);
+
+    if (!result) {
+      result = searchLeft(currentRow, currentCol);
     }
+
+    if (!result) {
+      result = searchNextRow(currentRow, currentCol);
+    }
+
+    if (!result) {
+      return { row: currentRow, col: currentCol };
+    }
+
+    return result;
   };
 
-  const findNextEmptyCellCol = (currentRow, currentCol) => {
-    console.log(
-      "Current row and column",
-      currentRow,
-      currentCol,
-      data[0].length,
-      data.length
-    );
-    // for (let col = currentCol; col < data[0].length; col++) {
-    //   for (let row = currentRow; row < data.length; row++) {
-    //     console.log(row, col, data[row][col]);
-    //     if (data[row][col] === "") {
-    //       console.log("the empty grid is", row, col);
-    //       return { row, col }; // Return the position of the empty cell
-    //     }
-    //   }
-    // }
+  function findNextEmptyCellCol(crosswordData, currentRow, currentCol) {
+    const numRows = crosswordData.length;
+    const numCols = crosswordData[0].length;
 
-    //Search in the current col down
+    // Function to search downwards
+    const searchDown = (row, col) => {
+      console.log("searchDown");
+      for (let r = row + 1; r < numRows; r++) {
+        if (crosswordData[r][col] === "") {
+          return { row: r, col };
+        }
+      }
+      return null;
+    };
 
-    for (let row = currentRow; row < data.length; row++) {
-      if (currentRow > 0) {
+    // Function to search upwards
+    const searchUp = (row, col) => {
+      console.log("searchUp");
+      for (let r = 0; r < row; r++) {
+        if (crosswordData[r][col] === "") {
+          return { row: r, col };
+        }
       }
-      if (row === data.length && currentCol !== 0) {
-        row = 0;
+      return null;
+    };
+
+    // Function to search the next column
+    const searchNextColumn = (col) => {
+      console.log("searchNextColumn");
+      for (
+        let nextCol = (col + 1) % numCols;
+        nextCol !== col;
+        nextCol = (nextCol + 1) % numCols
+      ) {
+        for (let r = 0; r < numRows; r++) {
+          if (crosswordData[r][nextCol] === "") {
+            return { row: r, col: nextCol };
+          }
+        }
       }
+      return null;
+    };
+
+    // Try to find an empty cell below the current one in the same column
+    let result = searchDown(currentRow, currentCol);
+
+    // If not found, search above the current one in the same column
+    if (!result) {
+      result = searchUp(currentRow, currentCol);
     }
-  };
+
+    // If still not found, search the next columns
+    if (!result) {
+      result = searchNextColumn(currentCol);
+    }
+
+    // If no empty cell is found, return the current position
+    if (!result) {
+      return { row: currentRow, col: currentCol };
+    }
+
+    return result;
+  }
 
   const nextFocus = () => {
     const hasBlankSpaces = data.some((row) => row.includes(""));
     if (!hasBlankSpaces) {
       return;
     }
-    // console.log(hasBlankSpaces);
+
     const { rgrid, cgrid } = activeGrid;
-    // console.log("the length of the data is", rgrid, cgrid, data.length);
     if (activeClue.name === "D") {
-      if (rgrid === 3 && cgrid === 4) {
-        if (data[1][0] === "") {
-          setActiveGrid({ rgrid: 1, cgrid: 0 });
-          handleOnGridClick(1, 0);
-          return;
-        }
-
-        const { row, col } = findNextEmptyCellCol(1, 0);
-        setActiveGrid({ rgrid: row, cgrid: col });
-        handleOnGridClick(row, col);
-        return;
-      }
-
-      if (rgrid < data.length - 1) {
-        if (data[rgrid + 1][cgrid] === "") {
-          setActiveGrid({ rgrid: rgrid + 1, cgrid });
-          handleOnGridClick(rgrid + 1, cgrid);
-          return;
-        }
-        const value = findNextEmptyCellCol(rgrid + 1, cgrid);
-        console.log(value);
-        // const { row, col } = findNextEmptyCellCol(rgrid + 1, cgrid);
-        // setActiveGrid({ rgrid: row, cgrid: col });
-        // handleOnGridClick(row, col);
-        return;
-      }
-
-      if (rgrid === data.length - 1 && cgrid < data.length - 1) {
-        if (data[0][cgrid + 1] === "") {
-          setActiveGrid({ rgrid: 0, cgrid: cgrid + 1 });
-          handleOnGridClick(0, cgrid + 1);
-          return;
-        }
-        const { row, col } = findNextEmptyCellCol(0, cgrid + 1);
-        setActiveGrid({ rgrid: row, cgrid: col });
-        handleOnGridClick(row, col);
-        return;
-      }
+      const { row, col } = findNextEmptyCellCol(data, rgrid, cgrid);
+      setActiveGrid({ rgrid: row, cgrid: col });
+      handleOnGridClick(row, col);
+      return;
     }
 
     if (activeClue.name === "A") {
-      if (rgrid === 4 && cgrid === 3) {
-        setActiveGrid({ rgrid: 0, cgrid: 1 });
-        handleOnGridClick(0, 1);
-      }
-      if (cgrid < data[rgrid].length - 1) {
-        setActiveGrid({ rgrid, cgrid: cgrid + 1 });
-        handleOnGridClick(rgrid, cgrid + 1);
-      }
-      if (cgrid === 4 && rgrid < 4) {
-        setActiveGrid({ rgrid: rgrid + 1, cgrid: 0 });
-        handleOnGridClick(rgrid + 1, 0);
-      }
+      console.log("coming in A");
+      const { row, col } = findNextEmptyCellRow(data, rgrid, cgrid);
+      setActiveGrid({ rgrid: row, cgrid: col });
+      handleOnGridClick(row, col);
+      return;
     }
   };
 
