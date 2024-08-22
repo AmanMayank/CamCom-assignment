@@ -187,8 +187,11 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         if (rgrid === 1 && cgrid === 0) {
           return;
         }
-        if (rgrid > 0) {
+        if (rgrid > 0 && activeClue.name === "D") {
           setActiveGrid({ rgrid: rgrid - 1, cgrid });
+        }
+        if (rgrid > 0 && activeClue.name === "A") {
+          setActiveGrid({ rgrid: rgrid, cgrid });
         }
         setActiveClue({
           name: "D",
@@ -201,8 +204,11 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         if (rgrid === 3 && cgrid === 4) {
           return;
         }
-        if (rgrid < data.length - 1) {
+        if (rgrid < data.length - 1 && activeClue.name === "D") {
           setActiveGrid({ rgrid: rgrid + 1, cgrid });
+        }
+        if (rgrid > 0 && activeClue.name === "A") {
+          setActiveGrid({ rgrid: rgrid, cgrid });
         }
         setActiveClue({
           name: "D",
@@ -215,8 +221,11 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         if (rgrid === 0 && cgrid === 1) {
           return;
         }
-        if (cgrid > 0) {
+        if (cgrid > 0 && activeClue.name === "A") {
           setActiveGrid({ rgrid, cgrid: cgrid - 1 });
+        }
+        if (cgrid > 0 && activeClue.name === "D") {
+          setActiveGrid({ rgrid, cgrid });
         }
 
         key = getAcrossKey(rgrid);
@@ -231,8 +240,11 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         if (rgrid === 4 && cgrid === 3) {
           return;
         }
-        if (cgrid < data[rgrid].length - 1) {
+        if (cgrid < data[rgrid].length - 1 && activeClue.name === "A") {
           setActiveGrid({ rgrid, cgrid: cgrid + 1 });
+        }
+        if (cgrid < data[rgrid].length - 1 && activeClue.name === "D") {
+          setActiveGrid({ rgrid, cgrid });
         }
         key = getAcrossKey(rgrid);
         setActiveClue({
