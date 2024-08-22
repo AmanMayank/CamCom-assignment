@@ -35,7 +35,9 @@ const CrosswordGrid = ({
               // isFocused={
               //   activeGrid.rgrid === rowIndex && activeGrid.cgrid === colIndex
               // }
-              onFocus={() => handleFocus(rowIndex, colIndex)}
+              onFocus={() => {
+                handleFocus(rowIndex, colIndex);
+              }}
               updateGrid={updateGrid}
               rowIndex={rowIndex}
               colIndex={colIndex}

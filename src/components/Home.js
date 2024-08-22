@@ -13,11 +13,11 @@ const Home = () => {
   ];
 
   const crosswordData = [
-    ["B", "", "", "", ""],
+    ["$", "", "", "", ""],
     ["", "", "", "", ""],
     ["", "", "", "", ""],
     ["", "", "", "", ""],
-    ["", "", "", "", "B"],
+    ["", "", "", "", "$"],
   ];
 
   const Clues = [
@@ -42,11 +42,13 @@ const Home = () => {
   const [grid, setGrid] = useState(crosswordData);
 
   function updateGrid(row, col, value) {
-    console.log("coming here", row, col, value);
+    // console.log("coming here", row, col, value);
     const newGrid = [...grid];
     newGrid[row][col] = value.toUpperCase();
     setGrid(newGrid);
   }
+
+  const hasBlankSpaces = crosswordData.some((row) => row.includes(""));
 
   return (
     <>

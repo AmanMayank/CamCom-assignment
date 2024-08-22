@@ -169,8 +169,20 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
 
   const handleKeyPress = (e) => {
     const { rgrid, cgrid } = activeGrid;
+    console.log(e.key);
+    if (e.key === "Backspace") {
+      updateGrid(rgrid, cgrid, "");
+    }
+    // if (data[rgrid][cgrid] !== "") {
+    if (e.code === `Key${e.key.toUpperCase()}`) {
+      // console.log(`You pressed ${e.key}`, rgrid, cgrid);
+      updateGrid(rgrid, cgrid, e.key);
+      nextFocus();
+    }
+    // }
+
     let key;
-    console.log(rgrid, cgrid);
+    // console.log(Number(e.key));
     switch (e.key) {
       case "ArrowUp":
         if (rgrid === 1 && cgrid === 0) {
@@ -235,24 +247,110 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
     }
   };
 
+  const findNextEmptyCellRow = (currentRow, currentCol) => {
+    for (let row = currentRow; row < data.length; row++) {
+      for (
+        let col = row === currentRow ? currentCol + 1 : 0;
+        col < data.length;
+        col++
+      ) {
+        if (data[row][col] === "") {
+          return { row, col };
+        }
+      }
+    }
+  };
+
+  const findNextEmptyCellCol = (currentRow, currentCol) => {
+    console.log(
+      "Current row and column",
+      currentRow,
+      currentCol,
+      data[0].length,
+      data.length
+    );
+    // for (let col = currentCol; col < data[0].length; col++) {
+    //   for (let row = currentRow; row < data.length; row++) {
+    //     console.log(row, col, data[row][col]);
+    //     if (data[row][col] === "") {
+    //       console.log("the empty grid is", row, col);
+    //       return { row, col }; // Return the position of the empty cell
+    //     }
+    //   }
+    // }
+
+    //Search in the current col down
+
+    for (let row = currentRow; row < data.length; row++) {
+      if (currentRow > 0) {
+      }
+      if (row === data.length && currentCol !== 0) {
+        row = 0;
+      }
+    }
+  };
+
   const nextFocus = () => {
+    const hasBlankSpaces = data.some((row) => row.includes(""));
+    if (!hasBlankSpaces) {
+      return;
+    }
+    // console.log(hasBlankSpaces);
     const { rgrid, cgrid } = activeGrid;
-    console.log("the length of the data is", rgrid, cgrid, data.length);
+    // console.log("the length of the data is", rgrid, cgrid, data.length);
     if (activeClue.name === "D") {
       if (rgrid === 3 && cgrid === 4) {
-        setActiveGrid({ rgrid: 1, cgrid: 0 });
-        handleOnGridClick(1, 0);
+        if (data[1][0] === "") {
+          setActiveGrid({ rgrid: 1, cgrid: 0 });
+          handleOnGridClick(1, 0);
+          return;
+        }
+
+        const { row, col } = findNextEmptyCellCol(1, 0);
+        setActiveGrid({ rgrid: row, cgrid: col });
+        handleOnGridClick(row, col);
         return;
       }
+
       if (rgrid < data.length - 1) {
-        setActiveGrid({ rgrid: rgrid + 1, cgrid });
-        handleOnGridClick(rgrid + 1, cgrid);
+        if (data[rgrid + 1][cgrid] === "") {
+          setActiveGrid({ rgrid: rgrid + 1, cgrid });
+          handleOnGridClick(rgrid + 1, cgrid);
+          return;
+        }
+        const value = findNextEmptyCellCol(rgrid + 1, cgrid);
+        console.log(value);
+        // const { row, col } = findNextEmptyCellCol(rgrid + 1, cgrid);
+        // setActiveGrid({ rgrid: row, cgrid: col });
+        // handleOnGridClick(row, col);
         return;
       }
+
       if (rgrid === data.length - 1 && cgrid < data.length - 1) {
-        setActiveGrid({ rgrid: 0, cgrid: cgrid + 1 });
-        handleOnGridClick(0, cgrid + 1);
+        if (data[0][cgrid + 1] === "") {
+          setActiveGrid({ rgrid: 0, cgrid: cgrid + 1 });
+          handleOnGridClick(0, cgrid + 1);
+          return;
+        }
+        const { row, col } = findNextEmptyCellCol(0, cgrid + 1);
+        setActiveGrid({ rgrid: row, cgrid: col });
+        handleOnGridClick(row, col);
         return;
+      }
+    }
+
+    if (activeClue.name === "A") {
+      if (rgrid === 4 && cgrid === 3) {
+        setActiveGrid({ rgrid: 0, cgrid: 1 });
+        handleOnGridClick(0, 1);
+      }
+      if (cgrid < data[rgrid].length - 1) {
+        setActiveGrid({ rgrid, cgrid: cgrid + 1 });
+        handleOnGridClick(rgrid, cgrid + 1);
+      }
+      if (cgrid === 4 && rgrid < 4) {
+        setActiveGrid({ rgrid: rgrid + 1, cgrid: 0 });
+        handleOnGridClick(rgrid + 1, 0);
       }
     }
   };

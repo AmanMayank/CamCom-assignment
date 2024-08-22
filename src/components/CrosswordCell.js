@@ -28,7 +28,7 @@ const CrosswordCell = React.forwardRef(
     };
 
     const backgroundColor = () => {
-      if (value === "B") {
+      if (value === "$") {
         return "bg-black z-10";
       } else if (
         activeGrid.rgrid === rowIndex &&
@@ -54,7 +54,7 @@ const CrosswordCell = React.forwardRef(
         </span>
         <input
           ref={ref}
-          disabled={value === "B" ? true : false}
+          disabled={value === "$" ? true : false}
           type="text"
           maxLength="1"
           value={value || ""}
@@ -64,8 +64,11 @@ const CrosswordCell = React.forwardRef(
                  ${backgroundColor()}
                 `}
           onChange={(e) => {
-            updateGrid(rowIndex, colIndex, e.target.value);
-            nextFocus();
+            //   if (value === "") {
+            //     console.log("is this being called", value === "");
+            //     updateGrid(rowIndex, colIndex, e.target.value);
+            //     nextFocus();
+            //   }
           }}
           onClick={(e) => handleOnGridClick(rowIndex, colIndex, currentIndex)}
         />
