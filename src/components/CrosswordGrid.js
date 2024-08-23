@@ -36,7 +36,10 @@ const CrosswordGrid = ({
       onKeyDown={(e) => handleKeyPress(e)}
     >
       {data.map((row, rowIndex) => (
-        <div className="box-border" key={rowIndex}>
+        <div
+          className="flex justify-center items-center relative"
+          key={rowIndex}
+        >
           {row.map((cell, colIndex) => (
             <CrosswordCell
               key={`${rowIndex}-${colIndex}`}

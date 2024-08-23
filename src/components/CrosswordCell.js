@@ -26,13 +26,26 @@ const CrosswordCell = React.forwardRef(
       const calculateFontSize = () => {
         const maxFontSize = 24; // Maximum font size in pixels
         const minFontSize = 5; // Minimum font size in pixels
-        const maxLength = 10; // Maximum text length before scaling down
+        const maxLength = 17; // Maximum text length before scaling down
         const length = value.length;
+        let tempFontSize = 24;
+
+        if (value.length < 9) {
+          tempFontSize = value.length;
+        }
+        if (value.length > 8) {
+          tempFontSize = value.length + 1;
+        }
+        // if (value.length > 9) {
+        //   tempFontSize = -5;
+        // }
 
         const newFontSize = Math.max(
           minFontSize,
-          maxFontSize - (length > maxLength ? length : 0)
+          maxFontSize - (length > maxLength ? length : 0) - tempFontSize
         );
+
+        console.log("the calculation result is ===", newFontSize);
 
         setFontSize(`${newFontSize}px`);
       };
@@ -80,6 +93,18 @@ const CrosswordCell = React.forwardRef(
       }
     };
 
+    const textAlignment = () => {
+      console.log(fontSize);
+      if (value.length > 1) {
+        if (fontSize > 8) {
+          return "pt-12 pb-4";
+        } else {
+          return "pt-16 pb-2";
+        }
+      }
+      return "";
+    };
+
     const width = `${Math.max(96, value.length * 10)}px`;
     const rebusCheck = isRebus && current;
     rebusCheck && inputRef?.current?.focus();
@@ -89,7 +114,7 @@ const CrosswordCell = React.forwardRef(
     return (
       <>
         {rebusCheck ? (
-          <>
+          <div className="relative">
             <input
               ref={inputRef}
               type="text"
@@ -104,10 +129,12 @@ const CrosswordCell = React.forwardRef(
               className="w-24 h-24 border-2 px-2 text-[24px] invisible box-border"
               disabled
             />
-          </>
+          </div>
         ) : (
-          <>
-            <span className="absolute p-1">{getClueNumber()}</span>
+          <div className="relative">
+            <span className="fixed p-2 text-sm font-bold">
+              {getClueNumber()}
+            </span>
             <input
               ref={ref}
               disabled={value === "$" ? true : false}
@@ -117,6 +144,7 @@ const CrosswordCell = React.forwardRef(
               onFocus={onFocus}
               className={`box-border w-24 h-24 text-center border-2 caret-transparent px-2
                  ${backgroundColor()}
+                 ${textAlignment()}
                 `}
               onChange={(e) => {
                 if (isRebus) {
@@ -131,7 +159,7 @@ const CrosswordCell = React.forwardRef(
                 fontSize: fontSize,
               }}
             />
-          </>
+          </div>
         )}
       </>
     );
