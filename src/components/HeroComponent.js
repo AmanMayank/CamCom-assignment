@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import CrosswordGrid from "./CrosswordGrid";
 
-const HeroComponent = ({ data, updateGrid, Clues }) => {
+const HeroComponent = ({ data, updateGrid, Clues, isRebus, resetRebus }) => {
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
   const [activeClue, setActiveClue] = useState({
@@ -101,6 +101,7 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
   };
 
   const handleOnGridClick = (rowIndex, colIndex, currentIndex) => {
+    resetRebus();
     if (activeClue.name === "A") {
       setCurrentIndex(rowIndex);
       let key = getAcrossKey(rowIndex);
@@ -117,6 +118,7 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         key: colIndex === 0 ? 5 : colIndex,
         value: down[colIndex === 0 ? 5 : colIndex],
       });
+      resetRebus();
     }
 
     handleFocus(rowIndex, colIndex);
@@ -144,11 +146,13 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
           rgrid: 1,
           cgrid: 0,
         });
+        resetRebus();
       } else {
         setActiveGrid({
           rgrid: 0,
           cgrid: Number(key),
         });
+        resetRebus();
       }
     }
 
@@ -158,25 +162,33 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
           rgrid: 0,
           cgrid: 1,
         });
+        resetRebus();
       } else {
         setActiveGrid({
           rgrid: key - 4,
           cgrid: 0,
         });
+        resetRebus();
       }
     }
   };
 
   const handleKeyPress = (e) => {
+    if (isRebus) {
+      return;
+    }
     const { rgrid, cgrid } = activeGrid;
     if (e.key === "Backspace") {
       updateGrid(rgrid, cgrid, "");
     }
     // if (data[rgrid][cgrid] !== "") {
     if (e.code === `Key${e.key.toUpperCase()}`) {
-      // console.log(`You pressed ${e.key}`, rgrid, cgrid);
-      updateGrid(rgrid, cgrid, e.key);
-      nextFocus();
+      console.log("inside hero component", isRebus);
+      if (!isRebus) {
+        updateGrid(rgrid, cgrid, e.key);
+        nextFocus();
+      }
+      return;
     }
     // }
 
@@ -189,6 +201,7 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         }
         if (rgrid > 0 && activeClue.name === "D") {
           setActiveGrid({ rgrid: rgrid - 1, cgrid });
+          resetRebus();
         }
         if (rgrid > 0 && activeClue.name === "A") {
           setActiveGrid({ rgrid: rgrid, cgrid });
@@ -206,6 +219,7 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         }
         if (rgrid < data.length - 1 && activeClue.name === "D") {
           setActiveGrid({ rgrid: rgrid + 1, cgrid });
+          resetRebus();
         }
         if (rgrid > 0 && activeClue.name === "A") {
           setActiveGrid({ rgrid: rgrid, cgrid });
@@ -223,6 +237,7 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         }
         if (cgrid > 0 && activeClue.name === "A") {
           setActiveGrid({ rgrid, cgrid: cgrid - 1 });
+          resetRebus();
         }
         if (cgrid > 0 && activeClue.name === "D") {
           setActiveGrid({ rgrid, cgrid });
@@ -242,6 +257,7 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
         }
         if (cgrid < data[rgrid].length - 1 && activeClue.name === "A") {
           setActiveGrid({ rgrid, cgrid: cgrid + 1 });
+          resetRebus();
         }
         if (cgrid < data[rgrid].length - 1 && activeClue.name === "D") {
           setActiveGrid({ rgrid, cgrid });
@@ -318,7 +334,6 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
 
     // Function to search downwards
     const searchDown = (row, col) => {
-      console.log("searchDown");
       for (let r = row + 1; r < numRows; r++) {
         if (crosswordData[r][col] === "") {
           return { row: r, col };
@@ -329,7 +344,6 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
 
     // Function to search upwards
     const searchUp = (row, col) => {
-      console.log("searchUp");
       for (let r = 0; r < row; r++) {
         if (crosswordData[r][col] === "") {
           return { row: r, col };
@@ -340,7 +354,6 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
 
     // Function to search the next column
     const searchNextColumn = (col) => {
-      console.log("searchNextColumn");
       for (
         let nextCol = (col + 1) % numCols;
         nextCol !== col;
@@ -382,6 +395,8 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
       return;
     }
 
+    resetRebus();
+
     const { rgrid, cgrid } = activeGrid;
     if (activeClue.name === "D") {
       const { row, col } = findNextEmptyCellCol(data, rgrid, cgrid);
@@ -391,7 +406,6 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
     }
 
     if (activeClue.name === "A") {
-      console.log("coming in A");
       const { row, col } = findNextEmptyCellRow(data, rgrid, cgrid);
       setActiveGrid({ rgrid: row, cgrid: col });
       handleOnGridClick(row, col);
@@ -417,6 +431,8 @@ const HeroComponent = ({ data, updateGrid, Clues }) => {
           handleKeyPress={handleKeyPress}
           handleFocus={handleFocus}
           nextFocus={nextFocus}
+          isRebus={isRebus}
+          resetRebus={resetRebus}
         />
       </div>
 

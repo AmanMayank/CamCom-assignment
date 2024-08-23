@@ -40,9 +40,10 @@ const Home = () => {
   ];
 
   const [grid, setGrid] = useState(crosswordData);
+  const [isRebus, setIsRebus] = useState(false);
 
   function updateGrid(row, col, value) {
-    // console.log("coming here", row, col, value);
+    console.log("coming here", row, col, value);
     const newGrid = [...grid];
     newGrid[row][col] = value.toUpperCase();
     setGrid(newGrid);
@@ -50,10 +51,25 @@ const Home = () => {
 
   const hasBlankSpaces = crosswordData.some((row) => row.includes(""));
 
+  const toggleRebus = () => {
+    setIsRebus(!isRebus);
+  };
+
+  const resetRebus = () => {
+    setIsRebus(false);
+  };
+
+  console.log(isRebus);
   return (
     <>
-      <Header />
-      <HeroComponent data={grid} updateGrid={updateGrid} Clues={Clues} />
+      <Header toggleRebus={toggleRebus} />
+      <HeroComponent
+        data={grid}
+        updateGrid={updateGrid}
+        Clues={Clues}
+        isRebus={isRebus}
+        resetRebus={resetRebus}
+      />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </>
   );

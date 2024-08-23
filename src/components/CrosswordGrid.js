@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CrosswordCell from "./CrosswordCell";
 
 const CrosswordGrid = ({
@@ -11,6 +11,8 @@ const CrosswordGrid = ({
   handleKeyPress,
   handleFocus,
   nextFocus,
+  isRebus,
+  resetRebus,
 }) => {
   const inputRefs = useRef([]);
 
@@ -18,16 +20,23 @@ const CrosswordGrid = ({
     if (inputRefs.current[activeGrid.rgrid]?.[activeGrid.cgrid]) {
       inputRefs.current[activeGrid.rgrid][activeGrid.cgrid].focus();
     }
-  }, [activeGrid]);
+  }, [activeGrid, isRebus]);
+
+  const handleBlur = (rowIndex, colIndex) => {
+    const currentInput = inputRefs.current[rowIndex]?.[colIndex];
+    if (currentInput) {
+      resetRebus();
+    }
+  };
 
   return (
     <div
-      className="mt-11  ml-4 grid grid-row-5 min-w-[480px]"
+      className="mt-11 ml-4 grid grid-row-5 min-w-[480px] box-border"
       tabIndex="0"
       onKeyDown={(e) => handleKeyPress(e)}
     >
       {data.map((row, rowIndex) => (
-        <div className="relative" key={rowIndex}>
+        <div className="box-border" key={rowIndex}>
           {row.map((cell, colIndex) => (
             <CrosswordCell
               key={`${rowIndex}-${colIndex}`}
@@ -37,6 +46,9 @@ const CrosswordGrid = ({
               // }
               onFocus={() => {
                 handleFocus(rowIndex, colIndex);
+              }}
+              onBlur={() => {
+                handleBlur(rowIndex, colIndex);
               }}
               updateGrid={updateGrid}
               rowIndex={rowIndex}
@@ -52,6 +64,7 @@ const CrosswordGrid = ({
                 }
                 inputRefs.current[rowIndex][colIndex] = el;
               }}
+              isRebus={isRebus}
             />
           ))}
         </div>
