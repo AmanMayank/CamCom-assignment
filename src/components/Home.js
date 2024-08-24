@@ -41,6 +41,61 @@ const Home = () => {
 
   const [grid, setGrid] = useState(crosswordData);
   const [isRebus, setIsRebus] = useState(false);
+  const [selectedDirection, setSelectedDirection] = useState("");
+  const [spaceBarDirection, setSpacebarDirection] = useState("");
+  const [backSpaceDirection, setBackSpaceDirection] = useState(false);
+  const [skipWords, setSkipWords] = useState(true);
+  const [skipPencilWords, setSkipPencilWords] = useState(true);
+  const [findFirstBlank, setFindFirstBlank] = useState(true);
+  const [jumpNextClue, setJumpNextClue] = useState(true);
+  const [playSound, setPlaySound] = useState(false);
+  const [showTimer, setShowTimer] = useState(true);
+  const [showWarning, setShowWarning] = useState(true);
+  const [showPuzzleMilestone, setShowPuzzleMilestone] = useState(false);
+
+  const handleDirectionChange = (event) => {
+    setSelectedDirection(event.target.value);
+  };
+
+  const handleSpaceBarPress = (event) => {
+    setSpacebarDirection(event.target.value);
+  };
+
+  const handleBackSpaceClick = () => {
+    setBackSpaceDirection(!backSpaceDirection);
+  };
+
+  const handleSkipWords = () => {
+    setSkipWords(!skipWords);
+  };
+
+  const handleskipPencilWords = () => {
+    setSkipPencilWords(!skipPencilWords);
+  };
+
+  const handleFindBlank = () => {
+    setFindFirstBlank(!findFirstBlank);
+  };
+
+  const handleJumpNextClue = () => {
+    setJumpNextClue(!jumpNextClue);
+  };
+
+  const handlePlaySound = () => {
+    setPlaySound(!playSound);
+  };
+
+  const handleTimerVisibility = () => {
+    setShowTimer(!showTimer);
+  };
+
+  const handleWarnings = () => {
+    setShowWarning(!showWarning);
+  };
+
+  const handleMilestone = () => {
+    setShowPuzzleMilestone(!showPuzzleMilestone);
+  };
 
   function updateGrid(row, col, value) {
     console.log("coming here", row, col, value);
@@ -59,10 +114,33 @@ const Home = () => {
     setIsRebus(false);
   };
 
-  console.log(isRebus);
   return (
     <>
-      <Header toggleRebus={toggleRebus} />
+      <Header
+        toggleRebus={toggleRebus}
+        selectedDirection={selectedDirection}
+        handleDirectionChange={handleDirectionChange}
+        spaceBarDirection={spaceBarDirection}
+        handleSpaceBarPress={handleSpaceBarPress}
+        backSpaceDirection={backSpaceDirection}
+        handleBackSpaceClick={handleBackSpaceClick}
+        skipWords={skipWords}
+        handleSkipWords={handleSkipWords}
+        skipPencilWords={skipPencilWords}
+        handleskipPencilWords={handleskipPencilWords}
+        findFirstBlank={findFirstBlank}
+        handleFindBlank={handleFindBlank}
+        jumpNextClue={jumpNextClue}
+        handleJumpNextClue={handleJumpNextClue}
+        playSound={playSound}
+        handlePlaySound={handlePlaySound}
+        showTimer={showTimer}
+        handleTimerVisibility={handleTimerVisibility}
+        showWarning={showWarning}
+        handleWarnings={handleWarnings}
+        showPuzzleMilestone={showPuzzleMilestone}
+        handleMilestone={handleMilestone}
+      />
       <HeroComponent
         data={grid}
         updateGrid={updateGrid}

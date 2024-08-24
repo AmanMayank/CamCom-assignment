@@ -3,7 +3,31 @@ import { IoSettingsOutline, IoPause, IoPlay } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
 import SettingsModal from "./SettingsModal";
 
-const Header = ({ toggleRebus }) => {
+const Header = ({
+  toggleRebus,
+  selectedDirection,
+  handleDirectionChange,
+  spaceBarDirection,
+  handleSpaceBarPress,
+  backSpaceDirection,
+  handleBackSpaceClick,
+  skipWords,
+  handleSkipWords,
+  skipPencilWords,
+  handleskipPencilWords,
+  findFirstBlank,
+  handleFindBlank,
+  jumpNextClue,
+  handleJumpNextClue,
+  playSound,
+  handlePlaySound,
+  showTimer,
+  handleTimerVisibility,
+  showWarning,
+  handleWarnings,
+  showPuzzleMilestone,
+  handleMilestone,
+}) => {
   const [time, setTime] = useState(0); // Time in seconds
   const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
   const timerRef = useRef(null); // Reference to the timer interval
@@ -158,7 +182,33 @@ const Header = ({ toggleRebus }) => {
         </div>
       )}
 
-      <SettingsModal />
+      {displaySettings && (
+        <SettingsModal
+          handleSettingsClick={handleSettingsClick}
+          selectedDirection={selectedDirection}
+          handleDirectionChange={handleDirectionChange}
+          spaceBarDirection={spaceBarDirection}
+          handleSpaceBarPress={handleSpaceBarPress}
+          backSpaceDirection={backSpaceDirection}
+          handleBackSpaceClick={handleBackSpaceClick}
+          skipWords={skipWords}
+          handleSkipWords={handleSkipWords}
+          skipPencilWords={skipPencilWords}
+          handleskipPencilWords={handleskipPencilWords}
+          findFirstBlank={findFirstBlank}
+          handleFindBlank={handleFindBlank}
+          jumpNextClue={jumpNextClue}
+          handleJumpNextClue={handleJumpNextClue}
+          playSound={playSound}
+          handlePlaySound={handlePlaySound}
+          showTimer={showTimer}
+          handleTimerVisibility={handleTimerVisibility}
+          showWarning={showWarning}
+          handleWarnings={handleWarnings}
+          showPuzzleMilestone={showPuzzleMilestone}
+          handleMilestone={handleMilestone}
+        />
+      )}
     </>
   );
 };
