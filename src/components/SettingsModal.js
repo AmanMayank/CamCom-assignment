@@ -27,17 +27,20 @@ const SettingsModal = ({
   handleMilestone,
 }) => {
   return (
-    <div className="w-full h-full fixed bg-slate-400 bg-opacity-90 z-40 mx-auto flex items-center justify-center">
-      <div className="w-1/2 h-auto bg-white z-50 border-2 border-black opacity-100 p-4 overflow-y-scroll no-scrollbar">
-        <div className="w-full flex justify-between items-center p-4">
+    <div className="w-full h-full absolute bg-slate-400 bg-opacity-90 z-40 mx-auto flex items-center justify-center">
+      <div className="w-1/2 h-auto bg-white z-50 border-2 border-black opacity-100 p-4 overflow-y-scroll no-scrollbar relative">
+        <div className="w-full flex justify-between items-center p-6">
           <h2 className="font-bold text-3xl">Puzzle Settings</h2>
-          <div className="cursor-pointer" onClick={handleSettingsClick}>
+          <div
+            className="cursor-pointer absolute right-0 top-0 p-4"
+            onClick={handleSettingsClick}
+          >
             <IoIosCloseCircleOutline size={22} />
           </div>
         </div>
 
-        <div className="w-full flex items-start h-auto ">
-          <div className="w-1/2 h-full bg-blue text-center p-4">
+        <div className="w-full flex  items-start h-auto">
+          <div className="w-1/2 h-full bg-blue text-center p-6">
             <div>
               <h2 className="font-semibold text-sm text-left">
                 After changing direction with arrow keys
@@ -140,7 +143,7 @@ const SettingsModal = ({
               </div>
             </div>
           </div>
-          <div className="w-1/2 h-full bg-blue text-center p-4 ">
+          <div className="w-1/2 h-full bg-blue text-center p-6 ">
             <div>
               <h2 className="font-semibold text-sm text-left">
                 At the end of a word
@@ -221,11 +224,14 @@ const SettingsModal = ({
           </div>
         </div>
 
-        <div className="w-full flex justify-center gap-x-7 items-center mx-auto mt-10  border-2 p-3">
+        <div className="w-full flex justify-center gap-x-7 items-center mx-auto mt-10  p-6">
           <button className="border-black rounded-3xl border-2 px-4 py-2 text-sm font-medium">
             Restore Defaults
           </button>
-          <button className="border-black rounded-3xl border-2 px-4 py-2  text-sm font-medium bg-black text-white text-center">
+          <button
+            onClick={handleSettingsClick}
+            className="border-black rounded-3xl border-2 px-4 py-2 text-sm font-medium bg-black text-white text-center"
+          >
             Save and Close
           </button>
         </div>

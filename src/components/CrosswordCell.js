@@ -45,8 +45,6 @@ const CrosswordCell = React.forwardRef(
           maxFontSize - (length > maxLength ? length : 0) - tempFontSize
         );
 
-        console.log("the calculation result is ===", newFontSize);
-
         setFontSize(`${newFontSize}px`);
       };
 
@@ -94,7 +92,6 @@ const CrosswordCell = React.forwardRef(
     };
 
     const textAlignment = () => {
-      console.log(fontSize);
       if (value.length > 1) {
         if (fontSize > 8) {
           return "pt-12 pb-4";
@@ -108,8 +105,6 @@ const CrosswordCell = React.forwardRef(
     const width = `${Math.max(96, value.length * 10)}px`;
     const rebusCheck = isRebus && current;
     rebusCheck && inputRef?.current?.focus();
-
-    current && console.log(fontSize);
 
     return (
       <>
@@ -148,7 +143,6 @@ const CrosswordCell = React.forwardRef(
                 `}
               onChange={(e) => {
                 if (isRebus) {
-                  console.log("the input data is", e.target.value);
                   updateGrid(rowIndex, colIndex, e.target.value);
                 }
               }}

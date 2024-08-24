@@ -1,7 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import CrosswordGrid from "./CrosswordGrid";
 
-const HeroComponent = ({ data, updateGrid, Clues, isRebus, resetRebus }) => {
+const HeroComponent = ({
+  data,
+  updateGrid,
+  Clues,
+  isRebus,
+  resetRebus,
+  selectedDirection,
+  spaceBarDirection,
+  backSpaceDirection,
+}) => {
+  console.log(backSpaceDirection);
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
   const [activeClue, setActiveClue] = useState({
@@ -177,23 +187,148 @@ const HeroComponent = ({ data, updateGrid, Clues, isRebus, resetRebus }) => {
     if (isRebus) {
       return;
     }
+    console.log(e.key);
     const { rgrid, cgrid } = activeGrid;
     if (e.key === "Backspace") {
-      updateGrid(rgrid, cgrid, "");
+      if (backSpaceDirection) {
+        if (activeClue.name === "A") {
+          let key = getAcrossKey(rgrid);
+          if (cgrid > 0) {
+            if (data[rgrid][cgrid - 1] !== "$") {
+              updateGrid(rgrid, cgrid - 1, "");
+              setActiveGrid({ rgrid, cgrid: cgrid - 1 });
+              key = getAcrossKey(rgrid);
+              setActiveClue({
+                name: "A",
+                key: key,
+                value: across[key],
+              });
+            } else if (data[rgrid][cgrid - 1] === "$") {
+              setActiveGrid({ rgrid: data.length - 1, cgrid: 0 });
+              updateGrid(data.length - 1, 0, "");
+              setActiveClue({
+                name: "D",
+                key: 0,
+                value: down[5],
+              });
+            }
+          }
+          if (cgrid === 0 && rgrid > 0) {
+            setActiveGrid({ rgrid: rgrid - 1, cgrid: data.length - 1 });
+            key = getAcrossKey(rgrid - 1);
+            setActiveClue({
+              name: "A",
+              key: key,
+              value: across[key],
+            });
+          }
+        } else if (activeClue.name === "D") {
+          if (rgrid > 0) {
+            if (data[rgrid - 1][cgrid] === "$") {
+              setActiveGrid({ rgrid: 3, cgrid: 4 });
+              updateGrid(3, 3, "");
+              setActiveClue({
+                name: "D",
+                key: 4,
+                value: down[5],
+              });
+            } else {
+              setActiveGrid({ rgrid: rgrid - 1, cgrid });
+              updateGrid(rgrid - 1, cgrid, "");
+              setActiveClue({
+                name: "D",
+                key: cgrid === 0 ? 5 : cgrid,
+                value: down[cgrid === 0 ? 5 : cgrid],
+              });
+            }
+          } else if (rgrid === 0) {
+            if (cgrid > 1) {
+              setActiveGrid({ rgrid: data.length - 1, cgrid: cgrid - 1 });
+              updateGrid(data.length - 1, cgrid - 1, "");
+              setActiveClue({
+                name: "D",
+                key: cgrid - 1 === 0 ? 5 : cgrid - 1,
+                value: down[cgrid - 1],
+              });
+            } else if (cgrid === 1) {
+              setActiveGrid({ rgrid: 4, cgrid: 3 });
+              updateGrid(4, 3, "");
+              let key = getAcrossKey(4);
+              setActiveClue({
+                name: "A",
+                key: key,
+                value: across[key],
+              });
+            }
+          }
+        }
+      } else {
+        updateGrid(rgrid, cgrid, "");
+      }
     }
-    // if (data[rgrid][cgrid] !== "") {
+    if (e.key === " ") {
+      if (spaceBarDirection === "clear current") {
+        if (activeClue.name === "A") {
+          if (rgrid === 0 && cgrid === data.length - 1) {
+            setActiveGrid({ rgrid: 0, cgrid: 1 });
+            return;
+          }
+          if (rgrid !== 0 && cgrid === data.length - 1) {
+            setActiveGrid({ rgrid, cgrid: 0 });
+            return;
+          }
+          if (rgrid === 4 && cgrid === 3) {
+            setActiveGrid({ rgrid, cgrid: 0 });
+            return;
+          }
+          if (cgrid < data.length - 1) {
+            setActiveGrid({ rgrid, cgrid: cgrid + 1 });
+            return;
+          }
+        } else {
+          if (rgrid === 4 && cgrid === 0) {
+            setActiveGrid({ rgrid: 1, cgrid });
+            return;
+          }
+          if (rgrid === 3 && cgrid === 4) {
+            setActiveGrid({ rgrid: 0, cgrid });
+            return;
+          }
+          if (rgrid < data.length - 1) {
+            setActiveGrid({ rgrid: rgrid + 1, cgrid });
+            return;
+          }
+          if (rgrid === data.length - 1) {
+            setActiveGrid({ rgrid: 0, cgrid });
+            return;
+          }
+        }
+      } else {
+        if (activeClue.name === "D") {
+          let key = getAcrossKey(rgrid);
+          setActiveClue({
+            name: "A",
+            key: key,
+            value: across[key],
+          });
+        } else {
+          setActiveClue({
+            name: "D",
+            key: cgrid === 0 ? 5 : cgrid,
+            value: down[cgrid === 0 ? 5 : cgrid],
+          });
+        }
+      }
+    }
     if (e.code === `Key${e.key.toUpperCase()}`) {
-      console.log("inside hero component", isRebus);
       if (!isRebus) {
         updateGrid(rgrid, cgrid, e.key);
         nextFocus();
       }
       return;
     }
-    // }
 
     let key;
-    // console.log(Number(e.key));
     switch (e.key) {
       case "ArrowUp":
         if (rgrid === 1 && cgrid === 0) {
@@ -204,8 +339,13 @@ const HeroComponent = ({ data, updateGrid, Clues, isRebus, resetRebus }) => {
           resetRebus();
         }
         if (rgrid > 0 && activeClue.name === "A") {
-          setActiveGrid({ rgrid: rgrid, cgrid });
+          if (selectedDirection === "Stay in the same") {
+            setActiveGrid({ rgrid: rgrid, cgrid });
+          } else {
+            setActiveGrid({ rgrid: rgrid - 1, cgrid });
+          }
         }
+
         setActiveClue({
           name: "D",
           key: cgrid === 0 ? 5 : cgrid,
@@ -221,8 +361,13 @@ const HeroComponent = ({ data, updateGrid, Clues, isRebus, resetRebus }) => {
           setActiveGrid({ rgrid: rgrid + 1, cgrid });
           resetRebus();
         }
+
         if (rgrid > 0 && activeClue.name === "A") {
-          setActiveGrid({ rgrid: rgrid, cgrid });
+          if (selectedDirection === "Stay in the same") {
+            setActiveGrid({ rgrid: rgrid, cgrid });
+          } else {
+            setActiveGrid({ rgrid: rgrid + 1, cgrid });
+          }
         }
         setActiveClue({
           name: "D",
@@ -239,8 +384,13 @@ const HeroComponent = ({ data, updateGrid, Clues, isRebus, resetRebus }) => {
           setActiveGrid({ rgrid, cgrid: cgrid - 1 });
           resetRebus();
         }
+
         if (cgrid > 0 && activeClue.name === "D") {
-          setActiveGrid({ rgrid, cgrid });
+          if (selectedDirection === "Stay in the same") {
+            setActiveGrid({ rgrid, cgrid });
+          } else {
+            setActiveGrid({ rgrid, cgrid: cgrid - 1 });
+          }
         }
 
         key = getAcrossKey(rgrid);
@@ -259,8 +409,13 @@ const HeroComponent = ({ data, updateGrid, Clues, isRebus, resetRebus }) => {
           setActiveGrid({ rgrid, cgrid: cgrid + 1 });
           resetRebus();
         }
+
         if (cgrid < data[rgrid].length - 1 && activeClue.name === "D") {
-          setActiveGrid({ rgrid, cgrid });
+          if (selectedDirection === "Stay in the same") {
+            setActiveGrid({ rgrid, cgrid });
+          } else {
+            setActiveGrid({ rgrid, cgrid: cgrid + 1 });
+          }
         }
         key = getAcrossKey(rgrid);
         setActiveClue({

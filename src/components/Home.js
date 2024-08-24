@@ -41,8 +41,9 @@ const Home = () => {
 
   const [grid, setGrid] = useState(crosswordData);
   const [isRebus, setIsRebus] = useState(false);
-  const [selectedDirection, setSelectedDirection] = useState("");
-  const [spaceBarDirection, setSpacebarDirection] = useState("");
+  const [selectedDirection, setSelectedDirection] =
+    useState("Stay in the same");
+  const [spaceBarDirection, setSpacebarDirection] = useState("clear current");
   const [backSpaceDirection, setBackSpaceDirection] = useState(false);
   const [skipWords, setSkipWords] = useState(true);
   const [skipPencilWords, setSkipPencilWords] = useState(true);
@@ -98,7 +99,7 @@ const Home = () => {
   };
 
   function updateGrid(row, col, value) {
-    console.log("coming here", row, col, value);
+    // console.log("coming here", row, col, value);
     const newGrid = [...grid];
     newGrid[row][col] = value.toUpperCase();
     setGrid(newGrid);
@@ -147,6 +148,9 @@ const Home = () => {
         Clues={Clues}
         isRebus={isRebus}
         resetRebus={resetRebus}
+        selectedDirection={selectedDirection}
+        spaceBarDirection={spaceBarDirection}
+        backSpaceDirection={backSpaceDirection}
       />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </>
