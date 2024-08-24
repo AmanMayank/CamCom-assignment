@@ -28,7 +28,7 @@ const SettingsModal = ({
 }) => {
   return (
     <div className="top-0 left-0 right-0 bottom-0 w-full h-[100vh] fixed z-30 mx-auto flex backdrop-blur items-center justify-center">
-      <div className="w-1/2 h-auto bg-white z-50 border-2 border-black  p-4 mt-10 relative ">
+      <div className="w-1/2 h-auto bg-white z-50 border-2 border-black  p-4 mt-10 relative mb-10">
         <div className="w-full flex justify-between items-center p-6">
           <h2 className="font-bold text-3xl">Puzzle Settings</h2>
           <div
