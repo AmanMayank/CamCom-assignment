@@ -27,8 +27,8 @@ const SettingsModal = ({
   handleMilestone,
 }) => {
   return (
-    <div className="w-full h-full absolute bg-slate-400 bg-opacity-90 z-40 mx-auto flex items-center justify-center">
-      <div className="w-1/2 h-auto bg-white z-50 border-2 border-black opacity-100 p-4 overflow-y-scroll no-scrollbar relative">
+    <div className="top-0 left-0 right-0 bottom-0 w-full h-[100vh] fixed z-30 mx-auto flex backdrop-blur items-center justify-center">
+      <div className="w-1/2 h-auto bg-white z-50 border-2 border-black  p-4 mt-10 relative ">
         <div className="w-full flex justify-between items-center p-6">
           <h2 className="font-bold text-3xl">Puzzle Settings</h2>
           <div
@@ -224,7 +224,7 @@ const SettingsModal = ({
           </div>
         </div>
 
-        <div className="w-full flex justify-center gap-x-7 items-center mx-auto mt-10  p-6">
+        <div className="w-full flex justify-center gap-x-7 items-center mx-auto mt-4 pb-4">
           <button className="border-black rounded-3xl border-2 px-4 py-2 text-sm font-medium">
             Restore Defaults
           </button>

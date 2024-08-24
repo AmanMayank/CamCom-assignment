@@ -100,7 +100,7 @@ const Header = ({
 
   return (
     <>
-      <div className="top-0 left-0 h-12 border-2 w-full bg-slate-200 flex justify-between items-center min-w-[480px]">
+      <div className="top-0 left-0 h-12 border-2 w-full bg-slate-200 flex justify-between items-center min-w-[480px] fixed z-10">
         <div className="ml-5 cursor-pointer" onClick={handleSettingsClick}>
           <IoSettingsOutline size={22} />
         </div>

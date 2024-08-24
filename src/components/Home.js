@@ -116,7 +116,7 @@ const Home = () => {
   };
 
   return (
-    <>
+    <div className="relative">
       <Header
         toggleRebus={toggleRebus}
         selectedDirection={selectedDirection}
@@ -153,7 +153,7 @@ const Home = () => {
         backSpaceDirection={backSpaceDirection}
       />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
-    </>
+    </div>
   );
 };
 
