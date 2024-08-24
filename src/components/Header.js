@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IoSettingsOutline, IoPause, IoPlay } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
+import SettingsModal from "./SettingsModal";
 
 const Header = ({ toggleRebus }) => {
   const [time, setTime] = useState(0); // Time in seconds
   const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
   const timerRef = useRef(null); // Reference to the timer interval
+
+  const [showClearMenu, setShowClearMenu] = useState(false);
+  const [showRevealMenu, setShowRevealMenu] = useState(false);
+  const [showCheckMenu, setShowCheckMenu] = useState(false);
+  const [displaySettings, setDisplaySettings] = useState(false);
 
   useEffect(() => {
     startTimer();
@@ -46,27 +52,114 @@ const Header = ({ toggleRebus }) => {
       .padStart(2, "0")}`;
   };
 
+  const clearMenuClick = () => {
+    setShowClearMenu(!showClearMenu);
+    if (showRevealMenu) setShowRevealMenu(!showRevealMenu);
+    if (showCheckMenu) setShowCheckMenu(!showCheckMenu);
+  };
+
+  const revealMenuClick = () => {
+    setShowRevealMenu(!showRevealMenu);
+    if (showClearMenu) setShowClearMenu(!showClearMenu);
+    if (showCheckMenu) setShowCheckMenu(!showCheckMenu);
+  };
+
+  const checkMenuClick = () => {
+    setShowCheckMenu(!showCheckMenu);
+    if (showRevealMenu) setShowRevealMenu(!showRevealMenu);
+    if (showClearMenu) setShowClearMenu(!showClearMenu);
+  };
+
+  const handleSettingsClick = () => {
+    setDisplaySettings(!displaySettings);
+  };
+
   return (
-    <div className="top-0 left-0 h-12 border-2 w-full bg-slate-200 flex justify-between items-center min-w-[480px]">
-      <div className="ml-5">
-        <IoSettingsOutline size={22} />
+    <>
+      <div className="top-0 left-0 h-12 border-2 w-full bg-slate-200 flex justify-between items-center min-w-[480px]">
+        <div className="ml-5 cursor-pointer" onClick={handleSettingsClick}>
+          <IoSettingsOutline size={22} />
+        </div>
+
+        <div className="flex items-center justify-center">
+          {formatTime(time)}
+          <span className="ml-2 cursor-pointer" onClick={handleStartPause}>
+            {isRunning ? <IoPause size={22} /> : <IoPlay size={22} />}
+          </span>
+        </div>
+
+        <div className="flex gap-8 items-center mr-5">
+          <p onClick={toggleRebus} className="cursor-pointer">
+            Rebus
+          </p>
+          <p onClick={clearMenuClick} className="cursor-pointer">
+            Clear
+          </p>
+          <p onClick={revealMenuClick} className="cursor-pointer">
+            Reveal
+          </p>
+          <p onClick={checkMenuClick} className="cursor-pointer">
+            Check
+          </p>
+          <div className="cursor-pointer">
+            <MdOutlineEdit size={22} />
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center justify-center">
-        {formatTime(time)}
-        <span className="ml-2 cursor-pointer" onClick={handleStartPause}>
-          {isRunning ? <IoPause size={22} /> : <IoPlay size={22} />}
-        </span>
-      </div>
+      {showClearMenu && (
+        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-40 mr-6 z-10 bg-blue-50  justify-between items-center shadow-lg">
+          <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
+            Incomplete
+          </p>
+          <p className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs">
+            Word
+          </p>
+          <p className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs">
+            Puzzle
+          </p>
+          <p
+            onClick={resetTimer}
+            className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
+          >
+            Puzzle & Timer
+          </p>
+        </div>
+      )}
 
-      <div className="flex gap-6 items-center mr-5">
-        <p onClick={toggleRebus}>Rebus</p>
-        <p onClick={resetTimer}>Clear</p>
-        <p>Reveal</p>
-        <p>Check</p>
-        <MdOutlineEdit size={22} />
-      </div>
-    </div>
+      {showRevealMenu && (
+        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-20 mr-16 z-10 bg-blue-50  justify-between items-center shadow-lg">
+          <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
+            Square
+          </p>
+          <p className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs">
+            Word
+          </p>
+          <p className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs">
+            Puzzle
+          </p>
+        </div>
+      )}
+
+      {showCheckMenu && (
+        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
+          <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
+            Autocheck
+          </p>
+          <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
+            Square
+          </p>
+          <p className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs">
+            Word
+          </p>
+          <p className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs">
+            Puzzle
+          </p>
+        </div>
+      )}
+
+      <SettingsModal />
+    </>
   );
 };
 
