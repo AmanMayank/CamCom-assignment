@@ -575,7 +575,7 @@ const HeroComponent = ({
   };
 
   return (
-    <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-16 justify-between mb-10">
+    <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-20 justify-between mb-10">
       <div className="flex-col justify-center items-center gap-6  mx-auto relative">
         <div className="text-center font-bold max-w-[480px]">
           <span>{activeClue.key}</span>
