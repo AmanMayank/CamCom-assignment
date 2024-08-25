@@ -151,6 +151,7 @@ const Home = () => {
         selectedDirection={selectedDirection}
         spaceBarDirection={spaceBarDirection}
         backSpaceDirection={backSpaceDirection}
+        skipWords={skipWords}
       />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </div>

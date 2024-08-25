@@ -31,7 +31,7 @@ const CrosswordGrid = ({
 
   return (
     <div
-      className="mt-11 ml-4 grid grid-row-5 min-w-[480px] box-border"
+      className="mt-11 grid grid-row-5 box-border relative"
       tabIndex="0"
       onKeyDown={(e) => handleKeyPress(e)}
     >

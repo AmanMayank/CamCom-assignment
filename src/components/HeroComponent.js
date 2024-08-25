@@ -10,8 +10,9 @@ const HeroComponent = ({
   selectedDirection,
   spaceBarDirection,
   backSpaceDirection,
+  skipWords,
 }) => {
-  console.log(backSpaceDirection);
+  // console.log(skipWords);
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
   const [activeClue, setActiveClue] = useState({
@@ -187,7 +188,7 @@ const HeroComponent = ({
     if (isRebus) {
       return;
     }
-    console.log(e.key);
+    console.log("This is the key being pressed", e);
     const { rgrid, cgrid } = activeGrid;
     if (e.key === "Backspace") {
       if (backSpaceDirection) {
@@ -323,7 +324,11 @@ const HeroComponent = ({
     if (e.code === `Key${e.key.toUpperCase()}`) {
       if (!isRebus) {
         updateGrid(rgrid, cgrid, e.key);
-        nextFocus();
+        if (skipWords) {
+          nextFocus();
+        } else {
+          handleKeyPress({ key: " " });
+        }
       }
       return;
     }
@@ -438,8 +443,8 @@ const HeroComponent = ({
         if (crosswordData[row][c] === "") {
           return { row, col: c };
         }
-        return null;
       }
+      return null;
     };
 
     const searchLeft = (row, col) => {
@@ -447,8 +452,9 @@ const HeroComponent = ({
         if (crosswordData[row][c] === "") {
           return { row, col: c };
         }
-        return null;
       }
+
+      return null;
     };
 
     const searchNextRow = (row) => {
@@ -570,7 +576,7 @@ const HeroComponent = ({
 
   return (
     <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-16 justify-between mb-10">
-      <div className="flex-col justify-center items-center gap-6 min-w-[680px] mx-auto">
+      <div className="flex-col justify-center items-center gap-6  mx-auto relative">
         <div className="text-center font-bold max-w-[480px]">
           <span>{activeClue.key}</span>
           <span>{activeClue.name}</span>

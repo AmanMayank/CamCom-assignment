@@ -127,7 +127,7 @@ const CrosswordCell = React.forwardRef(
           </div>
         ) : (
           <div className="relative">
-            <span className="fixed p-2 text-sm font-bold">
+            <span className="absolute p-2 text-sm font-bold">
               {getClueNumber()}
             </span>
             <input
@@ -137,7 +137,7 @@ const CrosswordCell = React.forwardRef(
               onBlur={onBlur}
               value={value || ""}
               onFocus={onFocus}
-              className={`box-border w-24 h-24 text-center border-2 caret-transparent px-2
+              className={`box-border w-16 h-16 text-center border-2 caret-transparent px-2
                  ${backgroundColor()}
                  ${textAlignment()}
                 `}
