@@ -105,12 +105,14 @@ const Header = ({
           <IoSettingsOutline size={22} />
         </div>
 
-        <div className="flex items-center justify-center">
-          {formatTime(time)}
-          <span className="ml-2 cursor-pointer" onClick={handleStartPause}>
-            {isRunning ? <IoPause size={22} /> : <IoPlay size={22} />}
-          </span>
-        </div>
+        {showTimer && (
+          <div className="flex items-center justify-center">
+            {formatTime(time)}
+            <span className="ml-2 cursor-pointer" onClick={handleStartPause}>
+              {isRunning ? <IoPause size={22} /> : <IoPlay size={22} />}
+            </span>
+          </div>
+        )}
 
         <div className="flex gap-8 items-center mr-5">
           <p onClick={toggleRebus} className="cursor-pointer">
