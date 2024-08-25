@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CrosswordGrid from "./CrosswordGrid";
 
 const HeroComponent = ({
@@ -11,8 +11,10 @@ const HeroComponent = ({
   spaceBarDirection,
   backSpaceDirection,
   skipWords,
+  findFirstBlank,
+  jumpNextClue,
 }) => {
-  // console.log(skipWords);
+  console.log(jumpNextClue, findFirstBlank);
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
   const [activeClue, setActiveClue] = useState({
@@ -324,6 +326,97 @@ const HeroComponent = ({
     if (e.code === `Key${e.key.toUpperCase()}`) {
       if (!isRebus) {
         updateGrid(rgrid, cgrid, e.key);
+        if (findFirstBlank) {
+          return handleKeyPress({ key: " " });
+        }
+        if (jumpNextClue) {
+          if (activeClue.name === "A") {
+            let key = getAcrossKey(rgrid);
+            if (cgrid < data.length - 1) {
+              if (data[rgrid][cgrid + 1] !== "$") {
+                setActiveGrid({ rgrid, cgrid: cgrid + 1 });
+                key = getAcrossKey(rgrid);
+                setActiveClue({
+                  name: "A",
+                  key: key,
+                  value: across[key],
+                });
+              } else if (data[rgrid][cgrid + 1] === "$") {
+                setActiveGrid({ rgrid: 0, cgrid: 1 });
+                setActiveClue({
+                  name: "D",
+                  key: 1,
+                  value: down[1],
+                });
+              }
+              return;
+            } else if (cgrid === data.length - 1) {
+              setActiveGrid({ rgrid: rgrid + 1, cgrid: 0 });
+              key = getAcrossKey(rgrid + 1);
+              setActiveClue({
+                name: "A",
+                key: key,
+                value: across[key],
+              });
+              return;
+            }
+          } else if (activeClue.name === "D") {
+            if (rgrid < data.length - 1) {
+              if (data[rgrid + 1][cgrid] === "$") {
+                setActiveGrid({ rgrid: 1, cgrid: 0 });
+                setActiveClue({
+                  name: "D",
+                  key: 4,
+                  value: down[5],
+                });
+                return;
+              } else {
+                setActiveGrid({ rgrid: rgrid + 1, cgrid });
+                setActiveClue({
+                  name: "D",
+                  key: cgrid === 0 ? 5 : cgrid,
+                  value: down[cgrid === 0 ? 5 : cgrid],
+                });
+                return;
+              }
+            } else if (rgrid === data.length - 1) {
+              if (cgrid < data.length - 1 && cgrid !== 0) {
+                setActiveGrid({ rgrid: 0, cgrid: cgrid + 1 });
+                setActiveClue({
+                  name: "D",
+                  key: cgrid + 1 === 0 ? 5 : cgrid + 1,
+                  value: down[cgrid + 1],
+                });
+                return;
+              } else if (cgrid === 0) {
+                console.log("Coming here");
+                setActiveGrid({ rgrid: 0, cgrid: 1 });
+                let key = getAcrossKey(0);
+                setActiveClue({
+                  name: "A",
+                  key: key,
+                  value: across[key],
+                });
+                return;
+              }
+            }
+          }
+        }
+        if (!findFirstBlank && !jumpNextClue) {
+          if (
+            (activeClue.name === "D" && rgrid === data.length - 1) ||
+            (activeClue.name === "A" && cgrid === data.length - 1)
+          ) {
+            return;
+          } else if (
+            (rgrid === 4 && cgrid === 3) ||
+            (rgrid === 3 && cgrid === 4)
+          ) {
+            return;
+          } else {
+            return handleKeyPress({ key: " " });
+          }
+        }
         if (skipWords) {
           nextFocus();
         } else {
@@ -533,19 +626,22 @@ const HeroComponent = ({
     let result = searchDown(currentRow, currentCol);
 
     // If not found, search above the current one in the same column
+
     if (!result) {
       result = searchUp(currentRow, currentCol);
     }
 
     // If still not found, search the next columns
+
     if (!result) {
       result = searchNextColumn(currentCol);
     }
 
-    // If no empty cell is found, return the current position
     if (!result) {
       return { row: currentRow, col: currentCol };
     }
+
+    // If no empty cell is found, return the current position
 
     return result;
   }
@@ -602,7 +698,7 @@ const HeroComponent = ({
           className="flex gap-4 justify-between border-2 w-full mx-auto lg:w-[50%]  "
           key={index}
         >
-          <div className=" w-[50%]">
+          <div className="w-[100%] md:w-[50%]">
             <h3 className="mb-2 text-xl font-bold border-b-2 p-3">Across</h3>
             <ul>
               {Object.entries(clue.Across).map(([key, value]) => (
@@ -621,7 +717,7 @@ const HeroComponent = ({
             </ul>
           </div>
 
-          <div className="w-[50%]">
+          <div className="w-[100%] md:w-[50%]">
             <h3 className="mb-2 text-xl font-bold border-b-2 p-3">Down</h3>
             <ul>
               {Object.entries(clue.Down).map(([key, value]) => (

@@ -152,6 +152,8 @@ const Home = () => {
         spaceBarDirection={spaceBarDirection}
         backSpaceDirection={backSpaceDirection}
         skipWords={skipWords}
+        findFirstBlank={findFirstBlank}
+        jumpNextClue={jumpNextClue}
       />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </div>
