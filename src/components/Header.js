@@ -134,7 +134,7 @@ const Header = ({
       </div>
 
       {showClearMenu && (
-        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-40 mr-6 z-10 bg-blue-50  justify-between items-center shadow-lg">
+        <div className="border-box h-auto w-auto flex-col gap-4 absolute -mt-8 right-40 mr-6 z-10 bg-blue-50  justify-between items-center shadow-lg">
           <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
             Incomplete
           </p>
@@ -154,7 +154,7 @@ const Header = ({
       )}
 
       {showRevealMenu && (
-        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-20 mr-16 z-10 bg-blue-50  justify-between items-center shadow-lg">
+        <div className="border-box h-auto w-auto -mt-8  flex-col gap-4 absolute right-20 mr-16 z-10 bg-blue-50  justify-between items-center shadow-lg">
           <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
             Square
           </p>
@@ -168,7 +168,7 @@ const Header = ({
       )}
 
       {showCheckMenu && (
-        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
+        <div className="border-box h-auto w-auto -mt-8 flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
           <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
             Autocheck
           </p>

@@ -102,7 +102,7 @@ const CrosswordCell = React.forwardRef(
       return "";
     };
 
-    const width = `${Math.max(96, value.length * 10)}px`;
+    const width = `${Math.max(64, value.length * 10)}px`;
     const rebusCheck = isRebus && current;
     rebusCheck && inputRef?.current?.focus();
 
@@ -114,14 +114,14 @@ const CrosswordCell = React.forwardRef(
               ref={inputRef}
               type="text"
               value={value}
-              className="h-24 box-border text-center fixed bg-white z-20  px-2 caret-black border-2 text-xl"
+              className="h-16 box-border text-center fixed bg-white z-20  px-2 caret-black border-2 text-xl"
               style={{ width: `${width}`, transition: "width 0.2s ease" }}
               onChange={(e) => {
                 updateGrid(rowIndex, colIndex, e.target.value);
               }}
             />
             <input
-              className="w-24 h-24 border-2 px-2 text-[24px] invisible box-border"
+              className="w-16 h-16 border-2 px-2 text-[24px] invisible box-border"
               disabled
             />
           </div>
