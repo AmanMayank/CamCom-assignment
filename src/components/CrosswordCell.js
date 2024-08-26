@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { RxTriangleDown } from "react-icons/rx";
-import { FaDotCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 
 const CrosswordCell = React.forwardRef(

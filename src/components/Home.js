@@ -67,6 +67,8 @@ const Home = () => {
   const [showWarning, setShowWarning] = useState(true);
   const [showPuzzleMilestone, setShowPuzzleMilestone] = useState(false);
 
+  const [autoCheck, setAutoCheck] = useState(false);
+
   const handleDirectionChange = (event) => {
     setSelectedDirection(event.target.value);
   };
@@ -265,6 +267,10 @@ const Home = () => {
     setHelperGrid(newHelperGrid);
   };
 
+  const handleAutoCheck = (value) => {
+    setAutoCheck(value);
+  };
+
   function updateGrid(row, col, value) {
     // console.log("coming here", row, col, value);
     const newGrid = [...grid];
@@ -290,6 +296,8 @@ const Home = () => {
       currentCol: activeGrid.cgrid,
     });
   };
+
+  console.log(autoCheck);
 
   return (
     <div className="relative">
@@ -325,6 +333,7 @@ const Home = () => {
         revealGrid={revealGrid}
         revealWord={revealWord}
         revealPuzzle={revealPuzzle}
+        handleAutoCheck={handleAutoCheck}
       />
       <HeroComponent
         data={grid}

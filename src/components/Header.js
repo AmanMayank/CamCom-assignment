@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { IoSettingsOutline, IoPause, IoPlay } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
 import SettingsModal from "./SettingsModal";
+import { TiTick } from "react-icons/ti";
 
 const Header = ({
   toggleRebus,
@@ -35,6 +36,7 @@ const Header = ({
   revealGrid,
   revealWord,
   revealPuzzle,
+  handleAutoCheck,
 }) => {
   const [time, setTime] = useState(0); // Time in seconds
   const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
@@ -44,6 +46,9 @@ const Header = ({
   const [showRevealMenu, setShowRevealMenu] = useState(false);
   const [showCheckMenu, setShowCheckMenu] = useState(false);
   const [displaySettings, setDisplaySettings] = useState(false);
+
+  const [autoCheck, setAutoCheck] = useState(false);
+  const [showAutoMenu, setShowAutoMenu] = useState(false);
 
   useEffect(() => {
     startTimer();
@@ -103,6 +108,12 @@ const Header = ({
     if (showClearMenu) setShowClearMenu(!showClearMenu);
   };
 
+  const autoCheckClick = () => {
+    setShowAutoMenu(!showAutoMenu);
+    if (showRevealMenu) setShowRevealMenu(!showRevealMenu);
+    if (showClearMenu) setShowClearMenu(!showClearMenu);
+  };
+
   const handleSettingsClick = () => {
     setDisplaySettings(!displaySettings);
   };
@@ -133,9 +144,20 @@ const Header = ({
           <p onClick={revealMenuClick} className="cursor-pointer">
             Reveal
           </p>
-          <p onClick={checkMenuClick} className="cursor-pointer">
-            Check
-          </p>
+
+          {autoCheck && (
+            <p
+              onClick={autoCheckClick}
+              className="cursor-pointer font-semibold"
+            >
+              Auto
+            </p>
+          )}
+          {!autoCheck && (
+            <p onClick={checkMenuClick} className="cursor-pointer">
+              Check
+            </p>
+          )}
           <div className="cursor-pointer">
             <MdOutlineEdit size={22} />
           </div>
@@ -196,7 +218,14 @@ const Header = ({
 
       {showCheckMenu && (
         <div className="border-box h-auto w-auto -mt-8 flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
-          <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
+          <p
+            onClick={() => {
+              handleAutoCheck(true);
+              setAutoCheck(true);
+              setShowCheckMenu(false);
+            }}
+            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
+          >
             Autocheck
           </p>
           <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
@@ -207,6 +236,21 @@ const Header = ({
           </p>
           <p className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs">
             Puzzle
+          </p>
+        </div>
+      )}
+
+      {showAutoMenu && (
+        <div className="border-box h-auto w-auto -mt-8 flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
+          <p
+            onClick={() => {
+              setShowAutoMenu(false);
+              setAutoCheck(false);
+              handleAutoCheck(false);
+            }}
+            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs flex items-center"
+          >
+            <TiTick /> Autocheck
           </p>
         </div>
       )}
