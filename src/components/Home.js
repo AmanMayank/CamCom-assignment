@@ -301,7 +301,7 @@ const Home = () => {
 
   const revealPuzzle = () => {
     const newGrid = [...grid];
-    const newHelperGrid = [...grid];
+    const newHelperGrid = [...helperGrid];
     for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid.length; j++) {
         if (newGrid[i][j] === crosswordAnswer[i][j]) {
@@ -317,6 +317,25 @@ const Home = () => {
     }
 
     setGrid(crosswordAnswer);
+    setHelperGrid(newHelperGrid);
+  };
+
+  const checkPuzzle = () => {
+    const newHelperGrid = [...helperGrid];
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid.length; j++) {
+        if (
+          grid[i][j] === "" ||
+          grid[i][j] === "$" ||
+          newHelperGrid[i][j] === "#" ||
+          newHelperGrid[i][j] === "@"
+        ) {
+          continue;
+        } else if (grid[i][j] === crosswordAnswer[i][j]) {
+          newHelperGrid[i][j] = "@";
+        } else newHelperGrid[i][j] = "!";
+      }
+    }
     setHelperGrid(newHelperGrid);
   };
 
@@ -423,6 +442,7 @@ const Home = () => {
         handleAutoCheck={handleAutoCheck}
         checkGrid={checkGrid}
         checkWord={checkWord}
+        checkPuzzle={checkPuzzle}
       />
       <HeroComponent
         data={grid}
