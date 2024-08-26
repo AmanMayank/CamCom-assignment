@@ -31,24 +31,28 @@ const CrosswordCell = React.forwardRef(
       const calculateFontSize = () => {
         const maxFontSize = 24; // Maximum font size in pixels
         const minFontSize = 5; // Minimum font size in pixels
-        const maxLength = 17; // Maximum text length before scaling down
+        const maxLength = 12; // Maximum text length before scaling down
         const length = value.length;
-        let tempFontSize = 24;
+        let tempFontSize = maxFontSize;
 
-        if (value.length < 9) {
-          tempFontSize = value.length;
+        // Adjust the base font size depending on the length of the text
+        if (length < 5) {
+          tempFontSize = maxFontSize;
+        } else if (length <= maxLength) {
+          tempFontSize = maxFontSize - length - 7; // Scale down as length increases
+        } else {
+          tempFontSize = minFontSize;
         }
-        if (value.length > 8) {
-          tempFontSize = value.length + 1;
-        }
-        // if (value.length > 9) {
-        //   tempFontSize = -5;
-        // }
 
+        // Ensure font size stays within min and max bounds
         const newFontSize = Math.max(
           minFontSize,
-          maxFontSize - (length > maxLength ? length : 0) - tempFontSize
+          Math.min(tempFontSize, maxFontSize)
         );
+
+        if (rowIndex === 0 && colIndex === 1) {
+          console.log(newFontSize);
+        }
 
         setFontSize(`${newFontSize}px`);
       };
@@ -104,10 +108,12 @@ const CrosswordCell = React.forwardRef(
 
     const textAlignment = () => {
       if (value.length > 1) {
-        if (fontSize > 8) {
-          return "pt-12 pb-4";
+        const value = fontSize.split("px")[0];
+        console.log("fontsize==", value, "equality check", value > 8);
+        if (value > 8) {
+          return "pt-10 pb-2";
         } else {
-          return "pt-16 pb-2";
+          return "pt-12 pb-2";
         }
       }
       return "";
