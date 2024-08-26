@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { RxTriangleDown } from "react-icons/rx";
+import { FaDotCircle } from "react-icons/fa";
+import { GoDotFill } from "react-icons/go";
 
 const CrosswordCell = React.forwardRef(
   (
@@ -17,10 +20,12 @@ const CrosswordCell = React.forwardRef(
       isRebus,
       onBlur,
       getWidth,
+      helperData,
     },
     ref
   ) => {
     const [fontSize, setFontSize] = useState(24);
+    const [revealedCell, setRevealedCell] = useState(false);
 
     useEffect(() => {
       const calculateFontSize = () => {
@@ -71,7 +76,13 @@ const CrosswordCell = React.forwardRef(
       } else {
         setCurrent(false);
       }
-    }, [activeGrid.rgrid, activeGrid.cgrid, rowIndex, colIndex]);
+
+      if (helperData[rowIndex][colIndex] === "#") {
+        setRevealedCell(true);
+      } else {
+        setRevealedCell(false);
+      }
+    }, [activeGrid.rgrid, activeGrid.cgrid, rowIndex, colIndex, helperData]);
 
     const backgroundColor = () => {
       if (value === "$") {
@@ -127,9 +138,14 @@ const CrosswordCell = React.forwardRef(
           </div>
         ) : (
           <div className="relative">
-            <span className="absolute p-2 text-sm font-bold">
+            <span className="absolute p-1 text-xs font-bold">
               {getClueNumber()}
             </span>
+            {revealedCell && (
+              <span className="absolute text-xs font-bold right-0">
+                <GoDotFill style={{ color: "white", backgroundColor: "red" }} />
+              </span>
+            )}
             <input
               ref={ref}
               disabled={value === "$" ? true : false}

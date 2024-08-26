@@ -19,6 +19,14 @@ const Home = () => {
     ["", "", "", "", "$"],
   ];
 
+  const helperData = [
+    ["$", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", "$"],
+  ];
+
   const Clues = [
     {
       Across: {
@@ -44,6 +52,7 @@ const Home = () => {
     currentCol: 1,
   });
   const [grid, setGrid] = useState(crosswordData);
+  const [helperGrid, setHelperGrid] = useState(helperData);
   const [isRebus, setIsRebus] = useState(false);
   const [selectedDirection, setSelectedDirection] =
     useState("Stay in the same");
@@ -192,17 +201,36 @@ const Home = () => {
   const revealGrid = () => {
     let { currentRow, currentCol } = currentDirection;
     const newGrid = [...grid];
+    const newHelperGrid = [...helperGrid];
+    if (
+      newGrid[currentRow][currentCol] ===
+      crosswordAnswer[currentRow][currentCol]
+    ) {
+      return;
+    }
     newGrid[currentRow][currentCol] = crosswordAnswer[currentRow][currentCol];
+    helperGrid[currentRow][currentCol] = "#";
     setGrid(newGrid);
+    setHelperGrid(newHelperGrid);
   };
 
   const revealWord = () => {
     let { direction, currentRow, currentCol } = currentDirection;
     const newGrid = [...grid];
+    const newHelperGrid = [...helperGrid];
 
     if (direction === "across") {
       for (let c = 0; c < newGrid.length; c++) {
-        newGrid[currentRow][c] = crosswordAnswer[currentRow][c];
+        if (crosswordAnswer[currentRow][c] === "$") {
+          newGrid[currentRow][c] = crosswordAnswer[currentRow][c];
+        } else {
+          if (newGrid[currentRow][c] === crosswordAnswer[currentRow][c]) {
+            continue;
+          } else {
+            newGrid[currentRow][c] = crosswordAnswer[currentRow][c];
+            newHelperGrid[currentRow][c] = "#";
+          }
+        }
       }
     }
 
@@ -213,10 +241,28 @@ const Home = () => {
     }
 
     setGrid(newGrid);
+    setHelperGrid(newHelperGrid);
   };
 
   const revealPuzzle = () => {
+    const newGrid = [...grid];
+    const newHelperGrid = [...grid];
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid.length; j++) {
+        if (newGrid[i][j] === crosswordAnswer[i][j]) {
+          continue;
+        } else {
+          if (newHelperGrid[i][j] === "#") {
+            continue;
+          } else {
+            newHelperGrid[i][j] = "#";
+          }
+        }
+      }
+    }
+
     setGrid(crosswordAnswer);
+    setHelperGrid(newHelperGrid);
   };
 
   function updateGrid(row, col, value) {
@@ -293,6 +339,7 @@ const Home = () => {
         findFirstBlank={findFirstBlank}
         jumpNextClue={jumpNextClue}
         handleCurrentDirectionChange={handleCurrentDirectionChange}
+        helperData={helperGrid}
       />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </div>

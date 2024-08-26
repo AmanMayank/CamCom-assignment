@@ -13,6 +13,7 @@ const CrosswordGrid = ({
   nextFocus,
   isRebus,
   resetRebus,
+  helperData,
 }) => {
   const inputRefs = useRef([]);
 
@@ -68,6 +69,7 @@ const CrosswordGrid = ({
                 inputRefs.current[rowIndex][colIndex] = el;
               }}
               isRebus={isRebus}
+              helperData={helperData}
             />
           ))}
         </div>

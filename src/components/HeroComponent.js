@@ -14,6 +14,7 @@ const HeroComponent = ({
   findFirstBlank,
   jumpNextClue,
   handleCurrentDirectionChange,
+  helperData,
 }) => {
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
@@ -696,6 +697,7 @@ const HeroComponent = ({
           nextFocus={nextFocus}
           isRebus={isRebus}
           resetRebus={resetRebus}
+          helperData={helperData}
         />
       </div>
 
