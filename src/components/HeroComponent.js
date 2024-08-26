@@ -99,7 +99,7 @@ const HeroComponent = ({
     } else {
       handleCurrentDirectionChange("down", activeGrid);
     }
-  }, [activeGrid]);
+  }, [activeGrid, activeClue.name]);
 
   const getAcrossKey = (rowIndex) => {
     switch (rowIndex) {
