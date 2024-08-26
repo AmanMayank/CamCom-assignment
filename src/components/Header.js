@@ -30,6 +30,11 @@ const Header = ({
 
   //handler for other buttons
   handleClearIncomplete,
+  handleClearWord,
+  handleClearPuzzle,
+  revealGrid,
+  revealWord,
+  revealPuzzle,
 }) => {
   const [time, setTime] = useState(0); // Time in seconds
   const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
@@ -69,7 +74,8 @@ const Header = ({
   const resetTimer = () => {
     clearInterval(timerRef.current);
     setTime(0);
-    setIsRunning(false);
+    startTimer();
+    handleClearPuzzle();
   };
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -144,10 +150,16 @@ const Header = ({
           >
             Incomplete
           </p>
-          <p className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs">
+          <p
+            onClick={handleClearWord}
+            className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
+          >
             Word
           </p>
-          <p className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs">
+          <p
+            onClick={handleClearPuzzle}
+            className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
+          >
             Puzzle
           </p>
           <p
@@ -161,13 +173,22 @@ const Header = ({
 
       {showRevealMenu && (
         <div className="border-box h-auto w-auto -mt-8  flex-col gap-4 absolute right-20 mr-16 z-10 bg-blue-50  justify-between items-center shadow-lg">
-          <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
+          <p
+            onClick={revealGrid}
+            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
+          >
             Square
           </p>
-          <p className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs">
+          <p
+            onClick={revealWord}
+            className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
+          >
             Word
           </p>
-          <p className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs">
+          <p
+            onClick={revealPuzzle}
+            className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
+          >
             Puzzle
           </p>
         </div>

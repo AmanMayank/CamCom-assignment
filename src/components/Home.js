@@ -38,6 +38,11 @@ const Home = () => {
     },
   ];
 
+  const [currentDirection, setCurrentDirection] = useState({
+    direction: "across",
+    currentRow: 0,
+    currentCol: 1,
+  });
   const [grid, setGrid] = useState(crosswordData);
   const [isRebus, setIsRebus] = useState(false);
   const [selectedDirection, setSelectedDirection] =
@@ -153,6 +158,67 @@ const Home = () => {
     setGrid(newGrid);
   };
 
+  const handleClearWord = () => {
+    let { direction, currentRow, currentCol } = currentDirection;
+    const newGrid = [...grid];
+
+    if (direction === "across") {
+      for (let c = 0; c < newGrid.length; c++) {
+        if (newGrid[currentRow][c] === "$") {
+          continue;
+        } else {
+          newGrid[currentRow][c] = "";
+        }
+      }
+    }
+
+    if (direction === "down") {
+      for (let r = 0; r < newGrid.length; r++) {
+        if (newGrid[r][currentCol] === "$") {
+          continue;
+        } else {
+          newGrid[r][currentCol] = "";
+        }
+      }
+    }
+
+    setGrid(newGrid);
+  };
+
+  const handleClearPuzzle = () => {
+    setGrid(crosswordData);
+  };
+
+  const revealGrid = () => {
+    let { currentRow, currentCol } = currentDirection;
+    const newGrid = [...grid];
+    newGrid[currentRow][currentCol] = crosswordAnswer[currentRow][currentCol];
+    setGrid(newGrid);
+  };
+
+  const revealWord = () => {
+    let { direction, currentRow, currentCol } = currentDirection;
+    const newGrid = [...grid];
+
+    if (direction === "across") {
+      for (let c = 0; c < newGrid.length; c++) {
+        newGrid[currentRow][c] = crosswordAnswer[currentRow][c];
+      }
+    }
+
+    if (direction === "down") {
+      for (let r = 0; r < newGrid.length; r++) {
+        newGrid[r][currentCol] = crosswordAnswer[r][currentCol];
+      }
+    }
+
+    setGrid(newGrid);
+  };
+
+  const revealPuzzle = () => {
+    setGrid(crosswordAnswer);
+  };
+
   function updateGrid(row, col, value) {
     // console.log("coming here", row, col, value);
     const newGrid = [...grid];
@@ -160,7 +226,7 @@ const Home = () => {
     setGrid(newGrid);
 
     const hasBlankSpaces = crosswordData.some((row) => row.includes(""));
-    hasBlankSpaces && console.log("No blank spaces found");
+    !hasBlankSpaces && console.log("No blank spaces found");
   }
 
   const toggleRebus = () => {
@@ -169,6 +235,14 @@ const Home = () => {
 
   const resetRebus = () => {
     setIsRebus(false);
+  };
+
+  const handleCurrentDirectionChange = (direction, activeGrid) => {
+    setCurrentDirection({
+      direction,
+      currentRow: activeGrid.rgrid,
+      currentCol: activeGrid.cgrid,
+    });
   };
 
   return (
@@ -200,6 +274,11 @@ const Home = () => {
         handleMilestone={handleMilestone}
         //handler for other buttons
         handleClearIncomplete={handleClearIncomplete}
+        handleClearWord={handleClearWord}
+        handleClearPuzzle={handleClearPuzzle}
+        revealGrid={revealGrid}
+        revealWord={revealWord}
+        revealPuzzle={revealPuzzle}
       />
       <HeroComponent
         data={grid}
@@ -213,6 +292,7 @@ const Home = () => {
         skipWords={skipWords}
         findFirstBlank={findFirstBlank}
         jumpNextClue={jumpNextClue}
+        handleCurrentDirectionChange={handleCurrentDirectionChange}
       />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </div>

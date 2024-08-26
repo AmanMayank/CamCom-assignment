@@ -13,6 +13,7 @@ const HeroComponent = ({
   skipWords,
   findFirstBlank,
   jumpNextClue,
+  handleCurrentDirectionChange,
 }) => {
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
@@ -47,6 +48,7 @@ const HeroComponent = ({
     }
 
     if (activeClue.name === "A") {
+      // handleCurrentDirectionChange("across", activeGrid);
       if (activeClue.key === 1 || activeClue.key === "1") {
         setCurrentIndex(0);
       } else {
@@ -63,6 +65,7 @@ const HeroComponent = ({
     }
 
     if (activeClue.name === "D") {
+      // handleCurrentDirectionChange("down", activeGrid);
       if (activeClue.key === 5) {
         setCurrentIndex(0);
       } else {
@@ -87,6 +90,14 @@ const HeroComponent = ({
     down,
     currentIndex,
   ]);
+
+  useEffect(() => {
+    if (activeClue.name === "A") {
+      handleCurrentDirectionChange("across", activeGrid);
+    } else {
+      handleCurrentDirectionChange("down", activeGrid);
+    }
+  }, [activeGrid]);
 
   const getAcrossKey = (rowIndex) => {
     switch (rowIndex) {
