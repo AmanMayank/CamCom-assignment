@@ -27,6 +27,9 @@ const Header = ({
   handleWarnings,
   showPuzzleMilestone,
   handleMilestone,
+
+  //handler for other buttons
+  handleClearIncomplete,
 }) => {
   const [time, setTime] = useState(0); // Time in seconds
   const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
@@ -135,7 +138,10 @@ const Header = ({
 
       {showClearMenu && (
         <div className="border-box h-auto w-auto flex-col gap-4 absolute -mt-8 right-40 mr-6 z-10 bg-blue-50  justify-between items-center shadow-lg">
-          <p className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs">
+          <p
+            onClick={handleClearIncomplete}
+            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
+          >
             Incomplete
           </p>
           <p className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const SettingsModal = ({

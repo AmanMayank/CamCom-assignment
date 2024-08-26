@@ -14,7 +14,6 @@ const HeroComponent = ({
   findFirstBlank,
   jumpNextClue,
 }) => {
-  console.log(jumpNextClue, findFirstBlank);
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
   const [activeClue, setActiveClue] = useState({
@@ -135,8 +134,6 @@ const HeroComponent = ({
     }
 
     handleFocus(rowIndex, colIndex);
-
-    // console.log(rowIndex, colIndex, currentIndex);
   };
 
   const handleFocus = (rowIndex, colIndex) => {
@@ -190,7 +187,6 @@ const HeroComponent = ({
     if (isRebus) {
       return;
     }
-    console.log("This is the key being pressed", e);
     const { rgrid, cgrid } = activeGrid;
     if (e.key === "Backspace") {
       if (backSpaceDirection) {
@@ -389,7 +385,6 @@ const HeroComponent = ({
                 });
                 return;
               } else if (cgrid === 0) {
-                console.log("Coming here");
                 setActiveGrid({ rgrid: 0, cgrid: 1 });
                 let key = getAcrossKey(0);
                 setActiveClue({

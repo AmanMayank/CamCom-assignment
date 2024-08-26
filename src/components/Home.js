@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import CrosswordGrid from "./CrosswordGrid";
 import Header from "./Header";
 import HeroComponent from "./HeroComponent";
 
 const Home = () => {
   const crosswordAnswer = [
-    ["A", "P", "P", "L", "E"],
-    ["B", null, null, null, "E"],
-    ["C", "A", "T", null, "S"],
-    ["D", null, "R", null, null],
-    ["E", "L", "I", "M", "E"],
+    ["$", "A", "D", "D", "S"],
+    ["F", "L", "O", "R", "A"],
+    ["A", "P", "R", "O", "N"],
+    ["K", "H", "I", "V", "E"],
+    ["E", "A", "S", "E", "$"],
   ];
 
   const crosswordData = [
@@ -98,14 +97,71 @@ const Home = () => {
     setShowPuzzleMilestone(!showPuzzleMilestone);
   };
 
+  const handleClearIncomplete = () => {
+    const isCompleteWord = (row, col, direction) => {
+      if (direction === "across") {
+        // check left
+        for (let c = 0; c < col; c++) {
+          if (grid[row][c] === "") {
+            return false;
+          }
+        }
+        // check right
+        for (let c = col + 1; c < grid.length; c++) {
+          if (grid[row][c] === "") {
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      if (direction === "down") {
+        // check down
+        for (let r = row + 1; r < grid.length; r++) {
+          if (grid[r][col] === "") {
+            return false;
+          }
+        }
+        // check up
+        for (let r = 0; r < row; r++) {
+          if (grid[r][col] === "") {
+            return false;
+          }
+        }
+        return true;
+      }
+    };
+
+    const newGrid = [...grid];
+    for (let i = 0; i < newGrid.length; i++) {
+      for (let j = 0; j < newGrid.length; j++) {
+        if (newGrid[i][j] === "" || newGrid[i][j] === "$") {
+          continue;
+        } else {
+          const checkAcross = isCompleteWord(i, j, "across");
+          const checkDown = isCompleteWord(i, j, "down");
+
+          if (!checkAcross && !checkDown) {
+            newGrid[i][j] = "";
+          } else {
+            continue;
+          }
+        }
+      }
+    }
+    setGrid(newGrid);
+  };
+
   function updateGrid(row, col, value) {
     // console.log("coming here", row, col, value);
     const newGrid = [...grid];
     newGrid[row][col] = value.toUpperCase();
     setGrid(newGrid);
-  }
 
-  const hasBlankSpaces = crosswordData.some((row) => row.includes(""));
+    const hasBlankSpaces = crosswordData.some((row) => row.includes(""));
+    hasBlankSpaces && console.log("No blank spaces found");
+  }
 
   const toggleRebus = () => {
     setIsRebus(!isRebus);
@@ -118,6 +174,7 @@ const Home = () => {
   return (
     <div className="relative">
       <Header
+        //Handler for settings
         toggleRebus={toggleRebus}
         selectedDirection={selectedDirection}
         handleDirectionChange={handleDirectionChange}
@@ -141,6 +198,8 @@ const Home = () => {
         handleWarnings={handleWarnings}
         showPuzzleMilestone={showPuzzleMilestone}
         handleMilestone={handleMilestone}
+        //handler for other buttons
+        handleClearIncomplete={handleClearIncomplete}
       />
       <HeroComponent
         data={grid}
