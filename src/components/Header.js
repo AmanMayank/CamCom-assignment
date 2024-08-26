@@ -38,6 +38,7 @@ const Header = ({
   revealPuzzle,
   handleAutoCheck,
   checkGrid,
+  checkWord,
 }) => {
   const [time, setTime] = useState(0); // Time in seconds
   const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
@@ -235,7 +236,10 @@ const Header = ({
           >
             Square
           </p>
-          <p className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs">
+          <p
+            onClick={checkWord}
+            className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
+          >
             Word
           </p>
           <p className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs">

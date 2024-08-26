@@ -101,15 +101,11 @@ const CrosswordCell = React.forwardRef(
         setRevealedCell(false);
       }
 
-      if (rowIndex === 0 && colIndex === 1) {
-        console.log("This is helper data===", helperData[0][1]);
-      }
       if (helperData[rowIndex][colIndex] === "!") {
         setIsIncorrect(true);
       } else {
         setIsIncorrect(false);
       }
-      console.log("helper data", helperData[0][1]);
       if (helperData[rowIndex][colIndex] === "@") {
         setCorrectCheck(true);
       }
@@ -149,16 +145,6 @@ const CrosswordCell = React.forwardRef(
     const width = `${Math.max(64, value.length * 10)}px`;
     const rebusCheck = isRebus && current;
     rebusCheck && inputRef?.current?.focus();
-    rowIndex === 0 &&
-      colIndex === 1 &&
-      console.log(
-        "rowIndex===",
-        rowIndex,
-        "colIndex===",
-        colIndex,
-        "IsIncorrect====",
-        isIncorrect
-      );
 
     return (
       <>

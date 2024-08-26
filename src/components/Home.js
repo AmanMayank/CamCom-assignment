@@ -239,31 +239,63 @@ const Home = () => {
 
   const revealWord = () => {
     let { direction, currentRow, currentCol } = currentDirection;
+    console.log("reveal word=====", direction, currentRow, currentCol);
     const newGrid = [...grid];
     const newHelperGrid = [...helperGrid];
 
     if (direction === "across") {
       for (let c = 0; c < newGrid.length; c++) {
-        if (crosswordAnswer[currentRow][c] === "$") {
-          newGrid[currentRow][c] = crosswordAnswer[currentRow][c];
+        if (newGrid[currentRow][c] === crosswordAnswer[currentRow][c]) {
+          continue;
         } else {
-          if (newGrid[currentRow][c] === crosswordAnswer[currentRow][c]) {
-            continue;
-          } else {
-            newGrid[currentRow][c] = crosswordAnswer[currentRow][c];
-            newHelperGrid[currentRow][c] = "#";
-          }
+          newGrid[currentRow][c] = crosswordAnswer[currentRow][c];
+          newHelperGrid[currentRow][c] = "#";
         }
       }
     }
 
     if (direction === "down") {
       for (let r = 0; r < newGrid.length; r++) {
-        newGrid[r][currentCol] = crosswordAnswer[r][currentCol];
+        if (newGrid[r][currentCol] === crosswordAnswer[r][currentCol]) {
+          continue;
+        } else {
+          newGrid[r][currentCol] = crosswordAnswer[r][currentCol];
+          newHelperGrid[r][currentCol] = "#";
+        }
       }
     }
 
     setGrid(newGrid);
+    setHelperGrid(newHelperGrid);
+  };
+
+  const checkWord = () => {
+    let { direction, currentRow, currentCol } = currentDirection;
+    const newGrid = [...grid];
+    const newHelperGrid = [...helperGrid];
+    if (direction === "across") {
+      for (let c = 0; c < newGrid.length; c++) {
+        if (grid[currentRow][c] === "" || grid[currentRow][c] === "$") {
+          continue;
+        } else if (grid[currentRow][c] === crosswordAnswer[currentRow][c]) {
+          newHelperGrid[currentRow][c] = "@";
+        } else if (grid[currentRow][c] !== crosswordAnswer[currentRow][c]) {
+          newHelperGrid[currentRow][c] = "!";
+        }
+      }
+    }
+
+    if (direction === "down") {
+      for (let r = 0; r < newGrid.length; r++) {
+        if (grid[r][currentCol] === "" || grid[r][currentCol] === "$") {
+          continue;
+        } else if (grid[r][currentCol] === crosswordAnswer[r][currentCol]) {
+          newHelperGrid[r][currentCol] = "@";
+        } else if (grid[r][currentCol] !== crosswordAnswer[r][currentCol]) {
+          newHelperGrid[r][currentCol] = "!";
+        }
+      }
+    }
     setHelperGrid(newHelperGrid);
   };
 
@@ -390,6 +422,7 @@ const Home = () => {
         revealPuzzle={revealPuzzle}
         handleAutoCheck={handleAutoCheck}
         checkGrid={checkGrid}
+        checkWord={checkWord}
       />
       <HeroComponent
         data={grid}
