@@ -322,10 +322,10 @@ const HeroComponent = ({
     if (e.code === `Key${e.key.toUpperCase()}`) {
       if (!isRebus) {
         updateGrid(rgrid, cgrid, e.key);
-        if (findFirstBlank) {
+        if (findFirstBlank && !jumpNextClue) {
           return handleKeyPress({ key: " " });
         }
-        if (jumpNextClue) {
+        if (jumpNextClue && !findFirstBlank) {
           if (activeClue.name === "A") {
             let key = getAcrossKey(rgrid);
             if (cgrid < data.length - 1) {
