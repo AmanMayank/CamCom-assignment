@@ -198,6 +198,7 @@ const Home = () => {
 
   const handleClearPuzzle = () => {
     setGrid(crosswordData);
+    setHelperGrid(crosswordData);
   };
 
   const revealGrid = () => {
