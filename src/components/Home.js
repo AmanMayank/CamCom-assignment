@@ -273,10 +273,33 @@ const Home = () => {
   };
 
   function updateGrid(row, col, value) {
-    // console.log("coming here", row, col, value);
+    console.log("coming here", row, col, value.toUpperCase());
     const newGrid = [...grid];
-    newGrid[row][col] = value.toUpperCase();
-    setGrid(newGrid);
+    const newHelperGrid = [...helperGrid];
+
+    if (autoCheck) {
+      if (newGrid[row][col] === value) {
+        return;
+      } else if (newGrid[row][col] === crosswordAnswer[row][col]) {
+        return;
+      } else if (value.toUpperCase() === crosswordAnswer[row][col]) {
+        newGrid[row][col] = value.toUpperCase();
+        newHelperGrid[row][col] = "";
+        setGrid(newGrid);
+        setHelperGrid(newHelperGrid);
+        return;
+      } else if (value.toUpperCase() !== crosswordAnswer[row][col]) {
+        newGrid[row][col] = value.toUpperCase();
+        newHelperGrid[row][col] = "!";
+        setGrid(newGrid);
+        setHelperGrid(newHelperGrid);
+        return;
+      }
+    } else {
+      newGrid[row][col] = value.toUpperCase();
+      setGrid(newGrid);
+      return;
+    }
 
     const hasBlankSpaces = crosswordData.some((row) => row.includes(""));
     !hasBlankSpaces && console.log("No blank spaces found");

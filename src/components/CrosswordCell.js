@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoDotFill } from "react-icons/go";
+import { IoCloseOutline } from "react-icons/io5";
 
 const CrosswordCell = React.forwardRef(
   (
@@ -24,6 +25,7 @@ const CrosswordCell = React.forwardRef(
   ) => {
     const [fontSize, setFontSize] = useState(24);
     const [revealedCell, setRevealedCell] = useState(false);
+    const [wrongValue, setWrongValue] = useState(false);
 
     useEffect(() => {
       const calculateFontSize = () => {
@@ -83,6 +85,12 @@ const CrosswordCell = React.forwardRef(
         setRevealedCell(true);
       } else {
         setRevealedCell(false);
+      }
+
+      if (helperData[rowIndex][colIndex] === "!") {
+        setWrongValue(true);
+      } else {
+        setWrongValue(false);
       }
     }, [activeGrid.rgrid, activeGrid.cgrid, rowIndex, colIndex, helperData]);
 
@@ -148,6 +156,14 @@ const CrosswordCell = React.forwardRef(
             {revealedCell && (
               <span className="absolute text-xs font-bold right-0">
                 <GoDotFill style={{ color: "white", backgroundColor: "red" }} />
+              </span>
+            )}
+            {wrongValue && (
+              <span className="absolute p-1  font-bold">
+                <IoCloseOutline
+                  style={{ color: "red", opacity: "20%" }}
+                  size={57}
+                />
               </span>
             )}
             <input
