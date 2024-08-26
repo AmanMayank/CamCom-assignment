@@ -15,6 +15,7 @@ const HeroComponent = ({
   jumpNextClue,
   handleCurrentDirectionChange,
   helperData,
+  autoCheck,
 }) => {
   const firstValueAcross = Clues[0].Across["1"];
   const firstValueDown = Clues[0].Down["1"];
@@ -698,6 +699,7 @@ const HeroComponent = ({
           isRebus={isRebus}
           resetRebus={resetRebus}
           helperData={helperData}
+          autoCheck={autoCheck}
         />
       </div>
 

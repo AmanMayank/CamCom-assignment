@@ -20,12 +20,15 @@ const CrosswordCell = React.forwardRef(
       onBlur,
       getWidth,
       helperData,
+      autoCheck,
     },
     ref
   ) => {
     const [fontSize, setFontSize] = useState(24);
+    const [fontColor, setfontColor] = useState("black");
     const [revealedCell, setRevealedCell] = useState(false);
-    const [wrongValue, setWrongValue] = useState(false);
+    const [isIncorrect, setIsIncorrect] = useState(false);
+    const [correctCheck, setCorrectCheck] = useState(false);
 
     useEffect(() => {
       const calculateFontSize = () => {
@@ -50,15 +53,26 @@ const CrosswordCell = React.forwardRef(
           Math.min(tempFontSize, maxFontSize)
         );
 
-        if (rowIndex === 0 && colIndex === 1) {
-          console.log(newFontSize);
-        }
-
         setFontSize(`${newFontSize}px`);
       };
 
+      const textColor = () => {
+        if (autoCheck) {
+          if (value === "$" || isIncorrect) {
+            setfontColor("black");
+          } else {
+            setfontColor("blue");
+          }
+        } else if (correctCheck) {
+          setfontColor("blue");
+        } else {
+          setfontColor("black");
+        }
+      };
+
       calculateFontSize();
-    }, [value]);
+      textColor();
+    }, [value, correctCheck, autoCheck, isIncorrect]);
 
     const getClueNumber = () => {
       if (rowIndex === 0) {
@@ -87,10 +101,17 @@ const CrosswordCell = React.forwardRef(
         setRevealedCell(false);
       }
 
+      if (rowIndex === 0 && colIndex === 1) {
+        console.log("This is helper data===", helperData[0][1]);
+      }
       if (helperData[rowIndex][colIndex] === "!") {
-        setWrongValue(true);
+        setIsIncorrect(true);
       } else {
-        setWrongValue(false);
+        setIsIncorrect(false);
+      }
+      console.log("helper data", helperData[0][1]);
+      if (helperData[rowIndex][colIndex] === "@") {
+        setCorrectCheck(true);
       }
     }, [activeGrid.rgrid, activeGrid.cgrid, rowIndex, colIndex, helperData]);
 
@@ -115,7 +136,7 @@ const CrosswordCell = React.forwardRef(
     const textAlignment = () => {
       if (value.length > 1) {
         const value = fontSize.split("px")[0];
-        console.log("fontsize==", value, "equality check", value > 8);
+        // console.log("fontsize==", value, "equality check", value > 8);
         if (value > 8) {
           return "pt-10 pb-2";
         } else {
@@ -128,6 +149,16 @@ const CrosswordCell = React.forwardRef(
     const width = `${Math.max(64, value.length * 10)}px`;
     const rebusCheck = isRebus && current;
     rebusCheck && inputRef?.current?.focus();
+    rowIndex === 0 &&
+      colIndex === 1 &&
+      console.log(
+        "rowIndex===",
+        rowIndex,
+        "colIndex===",
+        colIndex,
+        "IsIncorrect====",
+        isIncorrect
+      );
 
     return (
       <>
@@ -158,8 +189,13 @@ const CrosswordCell = React.forwardRef(
                 <GoDotFill style={{ color: "white", backgroundColor: "red" }} />
               </span>
             )}
-            {wrongValue && (
-              <span className="absolute p-1  font-bold">
+            {isIncorrect && (
+              <span
+                onClick={(e) =>
+                  handleOnGridClick(rowIndex, colIndex, currentIndex)
+                }
+                className="absolute p-1 font-bold z-10"
+              >
                 <IoCloseOutline
                   style={{ color: "red", opacity: "20%" }}
                   size={57}
@@ -187,6 +223,7 @@ const CrosswordCell = React.forwardRef(
               }
               style={{
                 fontSize: fontSize,
+                color: fontColor,
               }}
             />
           </div>

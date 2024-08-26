@@ -14,6 +14,7 @@ const CrosswordGrid = ({
   isRebus,
   resetRebus,
   helperData,
+  autoCheck,
 }) => {
   const inputRefs = useRef([]);
 
@@ -70,6 +71,7 @@ const CrosswordGrid = ({
               }}
               isRebus={isRebus}
               helperData={helperData}
+              autoCheck={autoCheck}
             />
           ))}
         </div>

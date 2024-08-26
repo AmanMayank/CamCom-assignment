@@ -217,6 +217,26 @@ const Home = () => {
     setHelperGrid(newHelperGrid);
   };
 
+  const checkGrid = () => {
+    let { currentRow, currentCol } = currentDirection;
+    const newHelperGrid = [...helperGrid];
+    if (newHelperGrid[currentRow][currentCol] === "#") {
+      return;
+    } else if (
+      grid[currentRow][currentCol] === crosswordAnswer[currentRow][currentCol]
+    ) {
+      newHelperGrid[currentRow][currentCol] = "@";
+      setHelperGrid(newHelperGrid);
+      return;
+    } else if (
+      grid[currentRow][currentCol] !== crosswordAnswer[currentRow][currentCol]
+    ) {
+      newHelperGrid[currentRow][currentCol] = "!";
+      setHelperGrid(newHelperGrid);
+      return;
+    }
+  };
+
   const revealWord = () => {
     let { direction, currentRow, currentCol } = currentDirection;
     const newGrid = [...grid];
@@ -278,6 +298,10 @@ const Home = () => {
     const newHelperGrid = [...helperGrid];
 
     if (autoCheck) {
+      if (helperGrid[row][col] === "#" || helperGrid[row][col] === "@") {
+        return;
+      }
+
       if (newGrid[row][col] === value) {
         return;
       } else if (newGrid[row][col] === crosswordAnswer[row][col]) {
@@ -296,9 +320,18 @@ const Home = () => {
         return;
       }
     } else {
-      newGrid[row][col] = value.toUpperCase();
-      setGrid(newGrid);
-      return;
+      if (helperGrid[row][col] === "@") {
+        return;
+      } else if (helperGrid[row][col] === "!") {
+        newHelperGrid[row][col] = "";
+        setHelperGrid(newHelperGrid);
+        newGrid[row][col] = value.toUpperCase();
+        setGrid(newGrid);
+      } else {
+        newGrid[row][col] = value.toUpperCase();
+        setGrid(newGrid);
+        return;
+      }
     }
 
     const hasBlankSpaces = crosswordData.some((row) => row.includes(""));
@@ -320,8 +353,6 @@ const Home = () => {
       currentCol: activeGrid.cgrid,
     });
   };
-
-  console.log(autoCheck);
 
   return (
     <div className="relative">
@@ -358,6 +389,7 @@ const Home = () => {
         revealWord={revealWord}
         revealPuzzle={revealPuzzle}
         handleAutoCheck={handleAutoCheck}
+        checkGrid={checkGrid}
       />
       <HeroComponent
         data={grid}
@@ -373,6 +405,7 @@ const Home = () => {
         jumpNextClue={jumpNextClue}
         handleCurrentDirectionChange={handleCurrentDirectionChange}
         helperData={helperGrid}
+        autoCheck={autoCheck}
       />
       {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
     </div>
