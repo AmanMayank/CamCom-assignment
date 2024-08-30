@@ -68,6 +68,7 @@ const Home = () => {
   const [showPuzzleMilestone, setShowPuzzleMilestone] = useState(false);
 
   const [autoCheck, setAutoCheck] = useState(false);
+  const [pencil, setPencil] = useState(false);
 
   const handleDirectionChange = (event) => {
     setSelectedDirection(event.target.value);
@@ -237,6 +238,10 @@ const Home = () => {
     }
   };
 
+  const handlePencilChange = () => {
+    setPencil(!pencil);
+  };
+
   const revealWord = () => {
     let { direction, currentRow, currentCol } = currentDirection;
     console.log("reveal word=====", direction, currentRow, currentCol);
@@ -341,6 +346,22 @@ const Home = () => {
 
   const handleAutoCheck = (value) => {
     setAutoCheck(value);
+    const newHelperGrid = [...helperGrid];
+    if (value) {
+      for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
+          if (grid[i][j] === "$" || grid[i][j] === "") {
+            continue;
+          }
+          if (grid[i][j] === crosswordAnswer[i][j]) {
+            helperGrid[i][j] = "@";
+          } else if (grid[i][j] !== crosswordAnswer[i][j]) {
+            helperGrid[i][j] = "!";
+          }
+        }
+      }
+    }
+    setHelperGrid(newHelperGrid);
   };
 
   function updateGrid(row, col, value) {
@@ -443,6 +464,8 @@ const Home = () => {
         checkGrid={checkGrid}
         checkWord={checkWord}
         checkPuzzle={checkPuzzle}
+        handlePencilChange={handlePencilChange}
+        pencil={pencil}
       />
       <HeroComponent
         data={grid}

@@ -40,6 +40,8 @@ const Header = ({
   checkGrid,
   checkWord,
   checkPuzzle,
+  pencil,
+  handlePencilChange,
 }) => {
   const [time, setTime] = useState(0); // Time in seconds
   const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
@@ -137,7 +139,7 @@ const Header = ({
           </div>
         )}
 
-        <div className="flex gap-8 items-center mr-5">
+        <div className="flex gap-8 items-center mr">
           <p onClick={toggleRebus} className="cursor-pointer">
             Rebus
           </p>
@@ -161,8 +163,21 @@ const Header = ({
               Check
             </p>
           )}
-          <div className="cursor-pointer">
-            <MdOutlineEdit size={22} />
+          <div
+            className={`cursor-pointer -ml-2    ${
+              pencil ? "bg-blue-800 shadow-2xl" : ""
+            }  p-3 `}
+          >
+            {pencil && (
+              <span onClick={handlePencilChange}>
+                <MdOutlineEdit style={{ color: "white" }} size={20} />
+              </span>
+            )}
+            {!pencil && (
+              <span onClick={handlePencilChange}>
+                <MdOutlineEdit size={20} />
+              </span>
+            )}
           </div>
         </div>
       </div>
