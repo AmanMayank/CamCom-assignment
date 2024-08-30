@@ -154,39 +154,39 @@ const CrosswordCell = React.forwardRef(
               ref={inputRef}
               type="text"
               value={value}
-              className="h-16 box-border text-center fixed bg-white z-20  px-2 caret-black border-2 text-xl"
+              className="h-12 md:h-16 box-border text-center fixed bg-white z-20  px-2 caret-black border-2 text-xl"
               style={{ width: `${width}`, transition: "width 0.2s ease" }}
               onChange={(e) => {
                 updateGrid(rowIndex, colIndex, e.target.value);
               }}
             />
             <input
-              className="w-16 h-16 border-2 px-2 text-[24px] invisible box-border"
+              className="w-12 h-12 md:w-16 md:h-16 border-2 px-2 text-[24px] invisible box-border"
               disabled
             />
           </div>
         ) : (
           <div className="relative">
-            <span className="absolute p-1 text-xs font-bold">
+            <span className="absolute p-1 text-[10px] md:text-xs font-bold">
               {getClueNumber()}
             </span>
             {revealedCell && (
-              <span className="absolute text-xs font-bold right-0">
+              <span className="absolute sm:text-[10px] text-xs font-bold right-0">
                 <GoDotFill style={{ color: "white", backgroundColor: "red" }} />
               </span>
             )}
             {isIncorrect && (
-              <span
+              <div
                 onClick={(e) =>
                   handleOnGridClick(rowIndex, colIndex, currentIndex)
                 }
-                className="absolute p-1 font-bold z-10"
+                className="sm:text-[15px] absolute p-1 font-bold z-10 flex items-center"
               >
                 <IoCloseOutline
                   style={{ color: "red", opacity: "20%" }}
                   size={57}
                 />
-              </span>
+              </div>
             )}
             <input
               ref={ref}
@@ -195,7 +195,7 @@ const CrosswordCell = React.forwardRef(
               onBlur={onBlur}
               value={value || ""}
               onFocus={onFocus}
-              className={`box-border w-16 h-16 text-center border-2 caret-transparent px-2
+              className={`box-border w-12 h-12 md:w-16 md:h-16 text-center border-2 caret-transparent px-2
                  ${backgroundColor()}
                  ${textAlignment()}
                 `}

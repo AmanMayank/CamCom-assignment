@@ -679,12 +679,12 @@ const HeroComponent = ({
   };
 
   return (
-    <div className=" w-full h-auto flex flex-col lg:flex-row gap-6 mt-20 justify-between mb-10">
-      <div className="flex-col justify-center items-center gap-6  mx-auto relative">
-        <div className="text-center font-bold max-w-[480px]">
+    <div className=" w-full h-full flex gap-2 md:gap-6 mt-10 md:mt-20 justify-center mb-10">
+      <div className="flex-col justify-center items-center gap-6  mx-auto relative mt-5 md:mt-0">
+        <div className="text-center font-bold text-[10px] w-[300px] md:text-xs md:w-[480px]">
           <span>{activeClue.key}</span>
           <span>{activeClue.name}</span>
-          <span className="ml-2"> {activeClue.value}</span>
+          <span className="ml-1 md:ml-2"> {activeClue.value}</span>
         </div>
         <CrosswordGrid
           data={data}
@@ -705,20 +705,24 @@ const HeroComponent = ({
 
       {Clues.map((clue, index) => (
         <div
-          className="flex gap-4 justify-between border-2 w-full mx-auto lg:w-[50%]  "
+          className="flex-row lg:flex gap-4 justify-between h-full mx-auto w-[40%] md:w-[50%]  "
           key={index}
         >
-          <div className="w-[100%] md:w-[50%]">
-            <h3 className="mb-2 text-xl font-bold border-b-2 p-3">Across</h3>
+          <div className="md:w-[50%]">
+            <h3 className="mb-2 text-sm font-bold border-b-2 p-3">ACROSS</h3>
             <ul>
               {Object.entries(clue.Across).map(([key, value]) => (
                 <li
                   onClick={() => handleClueClick("A", key, value)}
                   name="A"
                   key={key}
-                  className={`leading-8 lg:leading-10 flex cursor-pointer ${
-                    activeClue.value === value ? "border-4" : ""
-                  } ${adjacentClue.value === value ? "border-2" : ""}`}
+                  className={`border-l-8 border-lime-50  flex cursor-pointer mb-2 text-xs ${
+                    activeClue.value === value
+                      ? "bg-blue-300 border-l-blue-300"
+                      : " "
+                  } ${
+                    adjacentClue.value === value ? " border-l-blue-300" : " "
+                  }`}
                 >
                   <strong className="mr-3 ml-2">{key} </strong>
                   <p>{value}</p>
@@ -727,16 +731,20 @@ const HeroComponent = ({
             </ul>
           </div>
 
-          <div className="w-[100%] md:w-[50%]">
-            <h3 className="mb-2 text-xl font-bold border-b-2 p-3">Down</h3>
+          <div className="md:w-[50%]">
+            <h3 className="mb-2 text-sm font-bold border-b-2 p-3">DOWN</h3>
             <ul>
               {Object.entries(clue.Down).map(([key, value]) => (
                 <li
                   onClick={() => handleClueClick("D", key, value)}
                   key={key}
-                  className={`leading-8 lg:leading-10 flex cursor-pointer ${
-                    activeClue.value === value ? "border-4" : ""
-                  } ${adjacentClue.value === value ? "border-2" : ""}`}
+                  className={`border-l-8 border-white  flex cursor-pointer mb-2 text-xs ${
+                    activeClue.value === value
+                      ? "  bg-blue-300 border-l-blue-300"
+                      : " "
+                  } ${
+                    adjacentClue.value === value ? " border-l-blue-300" : " "
+                  }`}
                 >
                   <strong className="mr-3 ml-2">{key} </strong>
                   <p>{value}</p>
