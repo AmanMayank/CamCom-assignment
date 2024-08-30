@@ -679,12 +679,12 @@ const HeroComponent = ({
   };
 
   return (
-    <div className=" w-full h-full flex gap-2 md:gap-6 mt-10 md:mt-20 justify-center mb-10">
-      <div className="flex-col justify-center items-center gap-6  mx-auto relative mt-5 md:mt-0">
+    <div className=" min-w-[480px] w-full lg:w-[65%] lg:mx-auto h-full flex gap-2 md:gap-6 mt-10 md:mt-20 justify-center mb-10">
+      <div className="flex-col justify-center items-center gap-2 lg:gap-6  mx-auto relative mt-5 md:mt-0">
         <div className="text-center font-bold text-[10px] w-[300px] md:text-xs md:w-[480px]">
           <span>{activeClue.key}</span>
           <span>{activeClue.name}</span>
-          <span className="ml-1 md:ml-2"> {activeClue.value}</span>
+          <span className="ml-1 md:ml-2 lg:ml-0"> {activeClue.value}</span>
         </div>
         <CrosswordGrid
           data={data}
@@ -705,7 +705,7 @@ const HeroComponent = ({
 
       {Clues.map((clue, index) => (
         <div
-          className="flex-row lg:flex gap-4 justify-between h-full mx-auto w-[40%] md:w-[50%]  "
+          className="flex-row lg:flex gap-4  h-full mx-auto min-w-[200px] w-[40%] md:w-[50%] flex-shrink-0"
           key={index}
         >
           <div className="md:w-[50%]">

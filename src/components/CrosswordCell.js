@@ -134,9 +134,9 @@ const CrosswordCell = React.forwardRef(
         const value = fontSize.split("px")[0];
         // console.log("fontsize==", value, "equality check", value > 8);
         if (value > 8) {
-          return "pt-10 pb-2";
+          return "pt-7 pb-2";
         } else {
-          return "pt-12 pb-2";
+          return "pt-8 pb-2";
         }
       }
       return "";
@@ -180,7 +180,7 @@ const CrosswordCell = React.forwardRef(
                 onClick={(e) =>
                   handleOnGridClick(rowIndex, colIndex, currentIndex)
                 }
-                className="sm:text-[15px] absolute p-1 font-bold z-10 flex items-center"
+                className="w-full h-full absolute p-1 font-bold z-10 flex items-center justify-between"
               >
                 <IoCloseOutline
                   style={{ color: "red", opacity: "20%" }}

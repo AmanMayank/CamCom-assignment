@@ -125,67 +125,171 @@ const Header = ({
 
   return (
     <>
-      <div className="top-0 left-0 h-12 border-2 w-full bg-slate-200 flex justify-between items-center min-w-[480px] fixed z-10">
-        <div className="ml-5 cursor-pointer" onClick={handleSettingsClick}>
-          <IoSettingsOutline size={22} />
-        </div>
-
-        {showTimer && (
-          <div className="flex items-center justify-center">
-            {formatTime(time)}
-            <span className="ml-2 cursor-pointer" onClick={handleStartPause}>
-              {isRunning ? <IoPause size={22} /> : <IoPlay size={22} />}
-            </span>
+      <div className="top-0 left-0 h-12 border-b-[1px] border-t-[1px] border-black w-full bg-slate-50  min-w-[480px]  z-10 text-xs font-medium">
+        <div className="flex justify-between items-center w-full lg:w-[70%] mx-auto">
+          <div className="ml-5 cursor-pointer" onClick={handleSettingsClick}>
+            <IoSettingsOutline size={18} />
           </div>
-        )}
 
-        <div className="flex gap-8 items-center mr">
-          <p onClick={toggleRebus} className="cursor-pointer">
-            Rebus
-          </p>
-          <p onClick={clearMenuClick} className="cursor-pointer">
-            Clear
-          </p>
-          <p onClick={revealMenuClick} className="cursor-pointer">
-            Reveal
-          </p>
+          {showTimer && (
+            <div className="flex items-center justify-center">
+              {formatTime(time)}
+              <span className="ml-2 cursor-pointer" onClick={handleStartPause}>
+                {isRunning ? <IoPause size={22} /> : <IoPlay size={22} />}
+              </span>
+            </div>
+          )}
 
-          {autoCheck && (
-            <p
-              onClick={autoCheckClick}
-              className="cursor-pointer font-semibold"
+          <div className="flex gap-2 sm:gap-4 items-center mr">
+            <div
+              onClick={toggleRebus}
+              className="cursor-pointer py-[15px] px-3 hover:bg-slate-100"
             >
-              Auto
+              Rebus
+            </div>
+            <p
+              onClick={clearMenuClick}
+              className="cursor-pointer py-[15px] px-3 hover:bg-slate-100"
+            >
+              Clear
+              {showClearMenu && (
+                <div
+                  onClick={clearMenuClick}
+                  className="border-box h-auto w-auto flex-col gap-4 mt-4  absolute z-10 bg-blue-50  justify-between items-center shadow-lg p-0"
+                >
+                  <p
+                    onClick={handleClearIncomplete}
+                    className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
+                  >
+                    Incomplete
+                  </p>
+                  <p
+                    onClick={handleClearWord}
+                    className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
+                  >
+                    Word
+                  </p>
+                  <p
+                    onClick={handleClearPuzzle}
+                    className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
+                  >
+                    Puzzle
+                  </p>
+                  <p
+                    onClick={resetTimer}
+                    className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
+                  >
+                    Puzzle & Timer
+                  </p>
+                </div>
+              )}
             </p>
-          )}
-          {!autoCheck && (
-            <p onClick={checkMenuClick} className="cursor-pointer">
-              Check
+            <p
+              onClick={revealMenuClick}
+              className="cursor-pointer py-[15px] px-3 hover:bg-slate-100"
+            >
+              Reveal
+              {showRevealMenu && (
+                <div
+                  onClick={revealMenuClick}
+                  className="border-box h-auto w-auto flex-col gap-4 absolute mt-4 z-10 bg-blue-50  justify-between items-center shadow-lg p-0"
+                >
+                  <p
+                    onClick={revealGrid}
+                    className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
+                  >
+                    Square
+                  </p>
+                  <p
+                    onClick={revealWord}
+                    className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
+                  >
+                    Word
+                  </p>
+                  <p
+                    onClick={revealPuzzle}
+                    className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
+                  >
+                    Puzzle
+                  </p>
+                </div>
+              )}
             </p>
-          )}
-          <div
-            className={`cursor-pointer -ml-2    ${
-              pencil ? "bg-blue-800 shadow-2xl" : ""
-            }  p-3 `}
-          >
-            {pencil && (
-              <span onClick={handlePencilChange}>
-                <MdOutlineEdit style={{ color: "white" }} size={20} />
-              </span>
+
+            {autoCheck && (
+              <p
+                onClick={autoCheckClick}
+                className="cursor-pointer py-[15px] px-3 bg-blue-300 text-medium"
+              >
+                Auto
+              </p>
             )}
-            {!pencil && (
-              <span onClick={handlePencilChange}>
-                <MdOutlineEdit size={20} />
-              </span>
+            {!autoCheck && (
+              <p
+                onClick={checkMenuClick}
+                className="cursor-pointer hover:bg-slate-100 py-[15px] px-3"
+              >
+                Check
+                {showCheckMenu && (
+                  <div
+                    onClick={() => setShowCheckMenu(false)}
+                    className="border-box h-auto w-auto flex-col gap-4 absolute mt-4 z-10 bg-blue-50  justify-between items-center shadow-lg"
+                  >
+                    <p
+                      onClick={() => {
+                        handleAutoCheck(true);
+                        setAutoCheck(true);
+                      }}
+                      className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
+                    >
+                      Autocheck
+                    </p>
+                    <p
+                      onClick={checkGrid}
+                      className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
+                    >
+                      Square
+                    </p>
+                    <p
+                      onClick={checkWord}
+                      className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
+                    >
+                      Word
+                    </p>
+                    <p
+                      onClick={checkPuzzle}
+                      className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
+                    >
+                      Puzzle
+                    </p>
+                  </div>
+                )}
+              </p>
             )}
+            <div
+              className={`cursor-pointer -ml-2    ${
+                pencil ? "bg-blue-800 shadow-2xl" : ""
+              }  p-3 `}
+            >
+              {pencil && (
+                <span onClick={handlePencilChange}>
+                  <MdOutlineEdit style={{ color: "white" }} size={20} />
+                </span>
+              )}
+              {!pencil && (
+                <span onClick={handlePencilChange}>
+                  <MdOutlineEdit size={20} />
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {showClearMenu && (
+      {/* {showClearMenu && (
         <div
           onClick={clearMenuClick}
-          className="border-box h-auto w-auto flex-col gap-4 absolute -mt-8 right-40 mr-6 z-10 bg-blue-50  justify-between items-center shadow-lg"
+          className="border-box h-auto w-auto flex-col gap-4 absolute  right-40 mr-6 z-10 bg-blue-50  justify-between items-center shadow-lg"
         >
           <p
             onClick={handleClearIncomplete}
@@ -212,12 +316,12 @@ const Header = ({
             Puzzle & Timer
           </p>
         </div>
-      )}
+      )} */}
 
-      {showRevealMenu && (
+      {/* {showRevealMenu && (
         <div
           onClick={revealMenuClick}
-          className="border-box h-auto w-auto -mt-8  flex-col gap-4 absolute right-20 mr-16 z-10 bg-blue-50  justify-between items-center shadow-lg"
+          className="border-box h-auto w-auto   flex-col gap-4 absolute right-20 mr-16 z-10 bg-blue-50  justify-between items-center shadow-lg"
         >
           <p
             onClick={revealGrid}
@@ -238,12 +342,12 @@ const Header = ({
             Puzzle
           </p>
         </div>
-      )}
+      )} */}
 
-      {showCheckMenu && (
+      {/* {showCheckMenu && (
         <div
           onClick={() => setShowCheckMenu(false)}
-          className="border-box h-auto w-auto -mt-8 flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg"
+          className="border-box h-auto w-auto flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg"
         >
           <p
             onClick={() => {
@@ -273,10 +377,10 @@ const Header = ({
             Puzzle
           </p>
         </div>
-      )}
+      )} */}
 
       {showAutoMenu && (
-        <div className="border-box h-auto w-auto -mt-8 flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
+        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
           <p
             onClick={() => {
               setShowAutoMenu(false);
