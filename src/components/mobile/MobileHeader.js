@@ -4,6 +4,7 @@ import { IoSettingsOutline, IoPause, IoPlay } from "react-icons/io5";
 import { GiCarWheel } from "react-icons/gi";
 import MobileSettingsModal from "./MobileSettingsModal";
 import { TiTick } from "react-icons/ti";
+import MobilePauseModal from "./MobilePauseModal";
 
 const MobileHeader = ({
   toggleRebus,
@@ -295,6 +296,8 @@ const MobileHeader = ({
           handleMilestone={handleMilestone}
         />
       )}
+
+      {!isRunning && <MobilePauseModal handleStartPause={handleStartPause} />}
     </>
   );
 };
