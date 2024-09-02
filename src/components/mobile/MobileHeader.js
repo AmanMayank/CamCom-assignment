@@ -45,7 +45,7 @@ const MobileHeader = ({
 }) => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
-  const [displaySettings, setDisplaySettings] = useState(true);
+  const [displaySettings, setDisplaySettings] = useState(false);
   const [showOptions1, setShowOptions1] = useState(false);
   const [showOptions2, setShowOptions2] = useState(false);
   const [lastSelectedOption, setLastSelectedOption] = useState("option1");
@@ -143,7 +143,7 @@ const MobileHeader = ({
           )}
 
           {showOptions1 && (
-            <div className="absolute mt-[35px] flex-col right-3 bg-blue-600">
+            <div className="absolute mt-[35px] flex-col right-3 bg-blue-600 z-40">
               <div className="px-1 py-2 border-b-white text-white border-b-2">
                 Autocheck
               </div>
@@ -170,7 +170,7 @@ const MobileHeader = ({
           )}
 
           {showOptions2 && (
-            <div className="absolute mt-[35px] flex-col right-3 bg-blue-600">
+            <div className="absolute mt-[35px] flex-col right-3 bg-blue-600 z-40">
               <div className="px-1 py-2 border-b-white text-white border-b-2">
                 Clear Incomplete
               </div>

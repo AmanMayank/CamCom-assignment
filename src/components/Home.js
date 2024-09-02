@@ -8,6 +8,7 @@ import {
   isMobile,
 } from "react-device-detect";
 import MobileHeader from "./mobile/MobileHeader";
+import MobileHeroComponent from "./mobile/MobileHeroComponent";
 
 const Home = () => {
   const crosswordAnswer = [
@@ -535,6 +536,22 @@ const Home = () => {
             handlePencilChange={handlePencilChange}
             pencil={pencil}
           />
+          <MobileHeroComponent
+            data={grid}
+            updateGrid={updateGrid}
+            Clues={Clues}
+            isRebus={isRebus}
+            resetRebus={resetRebus}
+            selectedDirection={selectedDirection}
+            spaceBarDirection={spaceBarDirection}
+            backSpaceDirection={backSpaceDirection}
+            skipWords={skipWords}
+            findFirstBlank={findFirstBlank}
+            jumpNextClue={jumpNextClue}
+            handleCurrentDirectionChange={handleCurrentDirectionChange}
+            helperData={helperGrid}
+            autoCheck={autoCheck}
+          ></MobileHeroComponent>
         </div>
       </MobileView>
     </>
