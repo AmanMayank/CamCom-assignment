@@ -130,7 +130,7 @@ const MobileHeroComponent = ({
       return;
     }
     const { rgrid, cgrid } = activeGrid;
-    if (e.key === "Backspace") {
+    if (e === "{bksp}") {
       if (backSpaceDirection) {
         if (activeClue.name === "A") {
           let key = getAcrossKey(rgrid);

@@ -499,6 +499,7 @@ const Home = () => {
       <MobileView>
         <div className="relative ">
           <MobileHeader
+            //Handler for settings
             toggleRebus={toggleRebus}
             selectedDirection={selectedDirection}
             handleDirectionChange={handleDirectionChange}

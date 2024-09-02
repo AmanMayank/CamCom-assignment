@@ -3,6 +3,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoSettingsOutline, IoPause, IoPlay } from "react-icons/io5";
 import { GiCarWheel } from "react-icons/gi";
 import MobileSettingsModal from "./MobileSettingsModal";
+import { TiTick } from "react-icons/ti";
 
 const MobileHeader = ({
   toggleRebus,
@@ -49,6 +50,7 @@ const MobileHeader = ({
   const [showOptions1, setShowOptions1] = useState(false);
   const [showOptions2, setShowOptions2] = useState(false);
   const [lastSelectedOption, setLastSelectedOption] = useState("option1");
+  const [autoCheck, setAutoCheck] = useState(false);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -130,13 +132,13 @@ const MobileHeader = ({
         )}
 
         <div className="flex gap-5">
-          {!showOptions1 && !showOptions2 && (
+          {!showOptions1 && !showOptions2 && !autoCheck && (
             <div className=" cursor-pointer" onClick={handleOptionsClick}>
               <GiCarWheel style={{ color: "blue" }} size={22} />
             </div>
           )}
 
-          {(showOptions1 || showOptions2) && (
+          {(showOptions1 || showOptions2 || autoCheck) && (
             <div className=" cursor-pointer" onClick={handleOptionsClick}>
               <GiCarWheel
                 style={{ color: "white", background: "blue" }}
@@ -146,17 +148,48 @@ const MobileHeader = ({
           )}
 
           {showOptions1 && (
-            <div className="absolute mt-[35px] flex-col right-3 bg-blue-600 z-40">
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
-                Autocheck
-              </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+            <div
+              onClick={() => setShowOptions1(false)}
+              className="absolute mt-[35px] flex-col right-3 bg-blue-600 z-40"
+            >
+              {autoCheck ? (
+                <div
+                  onClick={() => {
+                    handleAutoCheck(false);
+                    setAutoCheck(false);
+                  }}
+                  className="px-1 py-2 border-b-white text-white border-b-2 flex"
+                >
+                  <TiTick />
+                  Autocheck
+                </div>
+              ) : (
+                <div
+                  onClick={() => {
+                    handleAutoCheck(true);
+                    setAutoCheck(true);
+                  }}
+                  className="px-1 py-2 border-b-white text-white border-b-2"
+                >
+                  Autocheck
+                </div>
+              )}
+              <div
+                onClick={checkGrid}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Check Square
               </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+              <div
+                onClick={checkWord}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Check Word
               </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+              <div
+                onClick={checkPuzzle}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Check Puzzle
               </div>
               <div
@@ -173,23 +206,47 @@ const MobileHeader = ({
           )}
 
           {showOptions2 && (
-            <div className="absolute mt-[35px] flex-col right-3 bg-blue-600 z-40">
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+            <div
+              onClick={() => setShowOptions2(false)}
+              className="absolute mt-[35px] flex-col right-3 bg-blue-600 z-40"
+            >
+              <div
+                onClick={handleClearIncomplete}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Clear Incomplete
               </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+              <div
+                onClick={handleClearWord}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Clear Word
               </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+              <div
+                onClick={() => {
+                  handleClearPuzzle();
+                  resetTimer();
+                }}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Reset Puzzle
               </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+              <div
+                onClick={revealGrid}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Reveal Square
               </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+              <div
+                onClick={revealWord}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Reveal Word
               </div>
-              <div className="px-1 py-2 border-b-white text-white border-b-2">
+              <div
+                onClick={revealPuzzle}
+                className="px-1 py-2 border-b-white text-white border-b-2"
+              >
                 Reveal Puzzle
               </div>
               <div
