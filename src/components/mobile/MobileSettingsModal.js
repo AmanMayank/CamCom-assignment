@@ -84,7 +84,7 @@ const MobileSettingsModal = ({
           </div>
 
           <div>
-            <h2 className="font-semibold text-sm text-left">
+            <h2 className="font-semibold text-sm text-left mt-3">
               At the end of a word
             </h2>
             <div className="flex flex-col space-y-2 mt-2">

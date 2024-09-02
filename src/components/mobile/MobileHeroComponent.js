@@ -509,23 +509,22 @@ const MobileHeroComponent = ({
     }
   };
 
-  const onChange = (input) => {
-    setInput(input);
-    console.log("Input changed", input);
-  };
-
-  const handleShift = () => {
-    const newLayoutName = layout === "default" ? "shift" : "default";
-    setLayout(newLayoutName);
-  };
-
-  const onKeyPress = (button) => {
-    console.log("Button pressed", button);
-
-    /**
-     * If you want to handle the shift and caps lock buttons
-     */
-    if (button === "{shift}" || button === "{lock}") handleShift();
+  const onClueClick = () => {
+    const { rgrid, cgrid } = activeGrid;
+    if (activeClue.name === "D") {
+      let key = getAcrossKey(rgrid);
+      setActiveClue({
+        name: "A",
+        key: key,
+        value: across[key],
+      });
+    } else {
+      setActiveClue({
+        name: "D",
+        key: cgrid === 0 ? 5 : cgrid,
+        value: down[cgrid === 0 ? 5 : cgrid],
+      });
+    }
   };
 
   return (
@@ -551,7 +550,7 @@ const MobileHeroComponent = ({
         <div className="w-full">
           <div className="flex justify-between text-center font-bold text-[15px] w-full bg-blue-300 py-2 px-1">
             <span className="mr-1">{"<"}</span>
-            <div>
+            <div onClick={onClueClick}>
               <span>{activeClue.key}</span>
               <span>{activeClue.name}</span>
               <span className="ml-1"> {activeClue.value}</span>
