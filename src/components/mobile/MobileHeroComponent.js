@@ -648,18 +648,18 @@ const MobileHeroComponent = ({
           />
         </div>
         <div className="w-full">
-          <div className="flex justify-between text-center font-bold text-[15px] w-full bg-blue-300 py-2 px-3">
-            <span onClick={onLeftArrowClick} className="mr-1">
+          <div className="flex justify-between text-center font-bold text-[15px] w-full bg-blue-300 py-2 px-3 gap-2">
+            <div onClick={onLeftArrowClick} className="mr-1 w-8">
               {"<"}
-            </span>
-            <div onClick={onClueClick}>
+            </div>
+            <div onClick={onClueClick} className="flex-grow-1">
               <span>{activeClue.key}</span>
               <span>{activeClue.name}</span>
               <span className="ml-1"> {activeClue.value}</span>
             </div>
-            <span onClick={onRightArrowClick} className="ml-1">
+            <div onClick={onRightArrowClick} className="ml-1 w-8">
               {">"}
-            </span>
+            </div>
           </div>
           <div>
             <Keyboard
