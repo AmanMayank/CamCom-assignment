@@ -3,6 +3,7 @@ import { IoSettingsOutline, IoPause, IoPlay } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
 import SettingsModal from "./SettingsModal";
 import { TiTick } from "react-icons/ti";
+import PauseModal from "./PauseModal";
 
 const Header = ({
   toggleRebus,
@@ -343,6 +344,8 @@ const Header = ({
           handleMilestone={handleMilestone}
         />
       )}
+
+      {!isRunning && <PauseModal handleStartPause={handleStartPause} />}
     </>
   );
 };
