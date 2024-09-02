@@ -28,7 +28,7 @@ const MobileSettingsModal = ({
 }) => {
   return (
     <div className="top-0 left-0 right-0 bottom-0 w-full h-[100vh]  fixed z-30 mx-auto flex backdrop-blur items-end justify-end ">
-      <div className="bg-white h-auto w-full border-2 p-4 border-black align-baseline relative transition duration-1000 ease-in-out">
+      <div className="bg-white h-auto w-full border-2 p-4 border-black align-baseline relative transition duration-1000 ease-in-out mb-1">
         <div className="w-full  flex items-center justify-between">
           <h2 className="font-bold text-2xl">Puzzle Settings</h2>
           <div
