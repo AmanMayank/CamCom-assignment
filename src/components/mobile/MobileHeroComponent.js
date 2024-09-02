@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import MobileCrosswordGrid from "./MobileCrosswordGrid";
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
 
 const MobileHeroComponent = ({
   data,
@@ -17,6 +19,9 @@ const MobileHeroComponent = ({
   helperData,
   autoCheck,
 }) => {
+  const keyboard = useRef();
+  const [layout, setLayout] = useState("default");
+  const [input, setInput] = useState("");
   const firstValueAcross = Clues[0].Across["1"];
   const [activeClue, setActiveClue] = useState({
     name: "A",
@@ -591,29 +596,61 @@ const MobileHeroComponent = ({
     }
   };
 
+  const onChange = (input) => {
+    setInput(input);
+    console.log("Input changed", input);
+  };
+
+  const handleShift = () => {
+    const newLayoutName = layout === "default" ? "shift" : "default";
+    setLayout(newLayoutName);
+  };
+
+  const onKeyPress = (button) => {
+    console.log("Button pressed", button);
+
+    /**
+     * If you want to handle the shift and caps lock buttons
+     */
+    if (button === "{shift}" || button === "{lock}") handleShift();
+  };
+
   return (
-    <div className=" w-full lg:w-[65%] lg:mx-auto h-full flex gap-2 md:gap-6 mt-4  md:mt-20 justify-center mb-10">
-      <div className="flex-col justify-center items-center gap-2 lg:gap-6 mx-auto relative mt-5 md:mt-0">
-        {/* <div className="text-center font-bold text-[10px] w-[300px] md:text-xs md:w-[480px]">
+    <div className=" w-full h-[90vh] gap-2 mt-4">
+      <div className="h-full w-full  flex flex-col justify-between items-center gap-10 relative mt-5">
+        <div>
+          <MobileCrosswordGrid
+            data={data}
+            updateGrid={updateGrid}
+            activeClue={activeClue}
+            currentIndex={currentIndex}
+            handleOnGridClick={handleOnGridClick}
+            activeGrid={activeGrid}
+            handleKeyPress={handleKeyPress}
+            handleFocus={handleFocus}
+            nextFocus={nextFocus}
+            isRebus={isRebus}
+            resetRebus={resetRebus}
+            helperData={helperData}
+            autoCheck={autoCheck}
+          />
+        </div>
+        <div>
+          {/* <div className="text-center font-bold text-[10px] w-[300px] md:text-xs md:w-[480px]">
           <span>{activeClue.key}</span>
           <span>{activeClue.name}</span>
           <span className="ml-1 md:ml-2 lg:ml-0"> {activeClue.value}</span>
         </div> */}
-        <MobileCrosswordGrid
-          data={data}
-          updateGrid={updateGrid}
-          activeClue={activeClue}
-          currentIndex={currentIndex}
-          handleOnGridClick={handleOnGridClick}
-          activeGrid={activeGrid}
-          handleKeyPress={handleKeyPress}
-          handleFocus={handleFocus}
-          nextFocus={nextFocus}
-          isRebus={isRebus}
-          resetRebus={resetRebus}
-          helperData={helperData}
-          autoCheck={autoCheck}
-        />
+          <div>
+            <Keyboard
+              keyboardRef={(r) => (keyboard.current = r)}
+              layoutName={layout}
+              onChange={onChange}
+              onKeyPress={onKeyPress}
+              style={{ bottom: "0" }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
