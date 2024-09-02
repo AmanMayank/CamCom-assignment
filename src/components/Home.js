@@ -231,6 +231,8 @@ const Home = () => {
     const newHelperGrid = [...helperGrid];
     if (newHelperGrid[currentRow][currentCol] === "#") {
       return;
+    } else if (grid[currentRow][currentCol] === "") {
+      return;
     } else if (
       grid[currentRow][currentCol] === crosswordAnswer[currentRow][currentCol]
     ) {
