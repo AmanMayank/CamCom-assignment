@@ -373,7 +373,7 @@ const Home = () => {
   };
 
   function updateGrid(row, col, value) {
-    console.log("coming here", row, col, value.toUpperCase());
+    console.log("coming here", row, col, value);
     const newGrid = [...grid];
     const newHelperGrid = [...helperGrid];
 

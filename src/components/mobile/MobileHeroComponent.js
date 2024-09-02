@@ -261,9 +261,11 @@ const MobileHeroComponent = ({
         }
       }
     }
-    if (e.code === `Key${e.toUpperCase()}`) {
+    const isUppercaseLetter = /^[A-Z]$/.test(e);
+    console.log("checking the input", isUppercaseLetter);
+    if (isUppercaseLetter) {
       if (!isRebus) {
-        updateGrid(rgrid, cgrid, e.key);
+        updateGrid(rgrid, cgrid, e);
         if (findFirstBlank && !jumpNextClue) {
           return handleKeyPress({ key: " " });
         }
@@ -361,106 +363,6 @@ const MobileHeroComponent = ({
         }
       }
       return;
-    }
-
-    let key;
-    switch (e.key) {
-      case "ArrowUp":
-        if (rgrid === 1 && cgrid === 0) {
-          return;
-        }
-        if (rgrid > 0 && activeClue.name === "D") {
-          setActiveGrid({ rgrid: rgrid - 1, cgrid });
-          resetRebus();
-        }
-        if (rgrid > 0 && activeClue.name === "A") {
-          if (selectedDirection === "Stay in the same") {
-            setActiveGrid({ rgrid: rgrid, cgrid });
-          } else {
-            setActiveGrid({ rgrid: rgrid - 1, cgrid });
-          }
-        }
-
-        setActiveClue({
-          name: "D",
-          key: cgrid === 0 ? 5 : cgrid,
-          value: down[cgrid === 0 ? 5 : cgrid],
-        });
-
-        break;
-      case "ArrowDown":
-        if (rgrid === 3 && cgrid === 4) {
-          return;
-        }
-        if (rgrid < data.length - 1 && activeClue.name === "D") {
-          setActiveGrid({ rgrid: rgrid + 1, cgrid });
-          resetRebus();
-        }
-
-        if (rgrid > 0 && activeClue.name === "A") {
-          if (selectedDirection === "Stay in the same") {
-            setActiveGrid({ rgrid: rgrid, cgrid });
-          } else {
-            setActiveGrid({ rgrid: rgrid + 1, cgrid });
-          }
-        }
-        setActiveClue({
-          name: "D",
-          key: cgrid === 0 ? 5 : cgrid,
-          value: down[cgrid === 0 ? 5 : cgrid],
-        });
-
-        break;
-      case "ArrowLeft":
-        if (rgrid === 0 && cgrid === 1) {
-          return;
-        }
-        if (cgrid > 0 && activeClue.name === "A") {
-          setActiveGrid({ rgrid, cgrid: cgrid - 1 });
-          resetRebus();
-        }
-
-        if (cgrid > 0 && activeClue.name === "D") {
-          if (selectedDirection === "Stay in the same") {
-            setActiveGrid({ rgrid, cgrid });
-          } else {
-            setActiveGrid({ rgrid, cgrid: cgrid - 1 });
-          }
-        }
-
-        key = getAcrossKey(rgrid);
-        setActiveClue({
-          name: "A",
-          key: key,
-          value: across[key],
-        });
-
-        break;
-      case "ArrowRight":
-        if (rgrid === 4 && cgrid === 3) {
-          return;
-        }
-        if (cgrid < data[rgrid].length - 1 && activeClue.name === "A") {
-          setActiveGrid({ rgrid, cgrid: cgrid + 1 });
-          resetRebus();
-        }
-
-        if (cgrid < data[rgrid].length - 1 && activeClue.name === "D") {
-          if (selectedDirection === "Stay in the same") {
-            setActiveGrid({ rgrid, cgrid });
-          } else {
-            setActiveGrid({ rgrid, cgrid: cgrid + 1 });
-          }
-        }
-        key = getAcrossKey(rgrid);
-        setActiveClue({
-          name: "A",
-          key: key,
-          value: across[key],
-        });
-        break;
-      default:
-        break;
     }
   };
 
