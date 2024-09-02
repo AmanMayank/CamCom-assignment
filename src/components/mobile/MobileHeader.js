@@ -118,9 +118,12 @@ const MobileHeader = ({
         </div>
 
         {showTimer && (
-          <div className="flex items-center center">
+          <div className="flex items-center center text-lg">
             {formatTime(time)}
-            <span className="ml-2 cursor-pointer" onClick={handleStartPause}>
+            <span
+              className="ml-2 cursor-pointer text-2xl"
+              onClick={handleStartPause}
+            >
               {isRunning ? <IoPause size={22} /> : <IoPlay size={22} />}
             </span>
           </div>

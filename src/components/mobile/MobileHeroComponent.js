@@ -262,7 +262,6 @@ const MobileHeroComponent = ({
       }
     }
     const isUppercaseLetter = /^[A-Z]$/.test(e);
-    console.log("checking the input", isUppercaseLetter);
     if (isUppercaseLetter) {
       if (!isRebus) {
         updateGrid(rgrid, cgrid, e);
@@ -527,6 +526,107 @@ const MobileHeroComponent = ({
     }
   };
 
+  const onLeftArrowClick = () => {
+    const { rgrid, cgrid } = activeGrid;
+    if (activeClue.name === "A") {
+      let key = getAcrossKey(rgrid);
+      if (rgrid > 0) {
+        if (rgrid === 1) {
+          setActiveGrid({ rgrid: 0, cgrid: 1 });
+          setActiveClue({
+            name: "A",
+            key: getAcrossKey(0),
+            value: across[key],
+          });
+        } else {
+          setActiveGrid({ rgrid: rgrid - 1, cgrid: 0 });
+          setActiveClue({
+            name: "A",
+            key: getAcrossKey(rgrid - 1),
+            value: across[key],
+          });
+        }
+      } else if (rgrid === 0 && cgrid > 0) {
+        setActiveGrid({ rgrid: 1, cgrid: 0 });
+        setActiveClue({
+          name: "D",
+          key: 0,
+          value: down[5],
+        });
+      }
+    } else {
+      if (cgrid > 1) {
+        setActiveGrid({ rgrid: 0, cgrid: cgrid - 1 });
+        setActiveClue({
+          name: "D",
+          key: cgrid - 1,
+          value: down[cgrid - 1],
+        });
+      } else if (cgrid === 0) {
+        setActiveGrid({ rgrid: 0, cgrid: 4 });
+        setActiveClue({
+          name: "D",
+          key: 4,
+          value: down[4],
+        });
+      } else if (cgrid === 1) {
+        setActiveGrid({ rgrid: 4, cgrid: 0 });
+        let key = getAcrossKey(4);
+        setActiveClue({
+          name: "A",
+          key: key,
+          value: across[key],
+        });
+      }
+    }
+  };
+
+  const onRightArrowClick = () => {
+    const { rgrid, cgrid } = activeGrid;
+    if (activeClue.name === "A") {
+      let key = getAcrossKey(rgrid);
+      if (rgrid < data.length - 1) {
+        setActiveGrid({ rgrid: rgrid + 1, cgrid: 0 });
+        setActiveClue({
+          name: "A",
+          key: getAcrossKey(rgrid + 1),
+          value: across[key],
+        });
+      } else if (rgrid === data.length - 1) {
+        setActiveGrid({ rgrid: 0, cgrid: 1 });
+        setActiveClue({
+          name: "D",
+          key: 1,
+          value: down[1],
+        });
+      }
+    } else {
+      if (cgrid < data.length - 1 && cgrid > 0) {
+        setActiveGrid({ rgrid: 0, cgrid: cgrid + 1 });
+        setActiveClue({
+          name: "D",
+          key: cgrid + 1,
+          value: down[cgrid + 1],
+        });
+      } else if (cgrid === data.length - 1) {
+        setActiveGrid({ rgrid: 1, cgrid: 0 });
+        setActiveClue({
+          name: "D",
+          key: 5,
+          value: down[5],
+        });
+      } else if (cgrid === 0) {
+        setActiveGrid({ rgrid: 0, cgrid: 1 });
+        let key = getAcrossKey(0);
+        setActiveClue({
+          name: "A",
+          key: key,
+          value: across[key],
+        });
+      }
+    }
+  };
+
   return (
     <div className=" w-full h-[85vh] gap-2 mt-4 mb-4">
       <div className="h-full w-full  flex flex-col justify-between items-center gap-10 relative mt-5">
@@ -548,14 +648,18 @@ const MobileHeroComponent = ({
           />
         </div>
         <div className="w-full">
-          <div className="flex justify-between text-center font-bold text-[15px] w-full bg-blue-300 py-2 px-1">
-            <span className="mr-1">{"<"}</span>
+          <div className="flex justify-between text-center font-bold text-[15px] w-full bg-blue-300 py-2 px-3">
+            <span onClick={onLeftArrowClick} className="mr-1">
+              {"<"}
+            </span>
             <div onClick={onClueClick}>
               <span>{activeClue.key}</span>
               <span>{activeClue.name}</span>
               <span className="ml-1"> {activeClue.value}</span>
             </div>
-            <span className="ml-1">{">"}</span>
+            <span onClick={onRightArrowClick} className="ml-1">
+              {">"}
+            </span>
           </div>
           <div>
             <Keyboard
