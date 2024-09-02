@@ -190,6 +190,7 @@ const MobileCrosswordCell = React.forwardRef(
             )}
             <input
               ref={ref}
+              readOnly={true}
               disabled={value === "$" ? true : false}
               type="text"
               onBlur={onBlur}
