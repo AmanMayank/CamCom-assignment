@@ -529,7 +529,7 @@ const MobileHeroComponent = ({
   };
 
   return (
-    <div className=" w-full h-[90vh] gap-2 mt-4">
+    <div className=" w-full h-[85vh] gap-2 mt-4">
       <div className="h-full w-full  flex flex-col justify-between items-center gap-10 relative mt-5">
         <div>
           <MobileCrosswordGrid
@@ -567,9 +567,11 @@ const MobileHeroComponent = ({
               onKeyPress={handleKeyPress}
             />
           </div>
-          <div className="w-full flex justify-between text-base gap-2">
-            <button className="border-black border-2 flex-1 py-1">Rebus</button>
-            <button className="border-black border-2 flex-1 flex items-center justify-center py-1">
+          <div className="w-full flex justify-between text-base gap-2 px-1">
+            <button className="border-black border-2 flex-1 py-1 rounded-md">
+              Rebus
+            </button>
+            <button className="border-black border-2 flex-1 flex items-center justify-center py-1 rounded-md">
               <MdOutlineEdit />
             </button>
           </div>
