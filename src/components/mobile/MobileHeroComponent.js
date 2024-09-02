@@ -3,6 +3,8 @@ import MobileCrosswordGrid from "./MobileCrosswordGrid";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
+import { MdOutlineEdit } from "react-icons/md";
+
 const MobileHeroComponent = ({
   data,
   updateGrid,
@@ -58,6 +60,14 @@ const MobileHeroComponent = ({
       }
     }
   }, [activeClue, Clues, across, down, currentIndex]);
+
+  const customLayout = {
+    default: [
+      " Q W E R T Y U I O P ",
+      " A S D F G H J K L ",
+      "123 Z X C V B N M {bksp}",
+    ],
+  };
 
   const getAcrossKey = (rowIndex) => {
     switch (rowIndex) {
@@ -115,6 +125,7 @@ const MobileHeroComponent = ({
   };
 
   const handleKeyPress = (e) => {
+    console.log(e);
     if (isRebus) {
       return;
     }
@@ -250,7 +261,7 @@ const MobileHeroComponent = ({
         }
       }
     }
-    if (e.code === `Key${e.key.toUpperCase()}`) {
+    if (e.code === `Key${e.toUpperCase()}`) {
       if (!isRebus) {
         updateGrid(rgrid, cgrid, e.key);
         if (findFirstBlank && !jumpNextClue) {
@@ -635,20 +646,30 @@ const MobileHeroComponent = ({
             autoCheck={autoCheck}
           />
         </div>
-        <div>
-          {/* <div className="text-center font-bold text-[10px] w-[300px] md:text-xs md:w-[480px]">
-          <span>{activeClue.key}</span>
-          <span>{activeClue.name}</span>
-          <span className="ml-1 md:ml-2 lg:ml-0"> {activeClue.value}</span>
-        </div> */}
+        <div className="w-full">
+          <div className="flex justify-between text-center font-bold text-[15px] w-full bg-blue-300 py-2 px-1">
+            <span className="mr-1">{"<"}</span>
+            <div>
+              <span>{activeClue.key}</span>
+              <span>{activeClue.name}</span>
+              <span className="ml-1"> {activeClue.value}</span>
+            </div>
+            <span className="ml-1">{">"}</span>
+          </div>
           <div>
             <Keyboard
               keyboardRef={(r) => (keyboard.current = r)}
+              layout={customLayout}
               layoutName={layout}
-              onChange={onChange}
-              onKeyPress={onKeyPress}
-              style={{ bottom: "0" }}
+              //   onChange={onChange}
+              onKeyPress={handleKeyPress}
             />
+          </div>
+          <div className="w-full flex justify-between text-base gap-2">
+            <button className="border-black border-2 flex-1 py-1">Rebus</button>
+            <button className="border-black border-2 flex-1 flex items-center justify-center py-1">
+              <MdOutlineEdit />
+            </button>
           </div>
         </div>
       </div>
