@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import HeroComponent from "./HeroComponent";
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile,
+} from "react-device-detect";
+import MobileHeader from "./mobile/MobileHeader";
 
 const Home = () => {
   const crosswordAnswer = [
@@ -427,64 +434,110 @@ const Home = () => {
   };
 
   return (
-    <div className="relative ">
-      <Header
-        //Handler for settings
-        toggleRebus={toggleRebus}
-        selectedDirection={selectedDirection}
-        handleDirectionChange={handleDirectionChange}
-        spaceBarDirection={spaceBarDirection}
-        handleSpaceBarPress={handleSpaceBarPress}
-        backSpaceDirection={backSpaceDirection}
-        handleBackSpaceClick={handleBackSpaceClick}
-        skipWords={skipWords}
-        handleSkipWords={handleSkipWords}
-        skipPencilWords={skipPencilWords}
-        handleskipPencilWords={handleskipPencilWords}
-        findFirstBlank={findFirstBlank}
-        handleFindBlank={handleFindBlank}
-        jumpNextClue={jumpNextClue}
-        handleJumpNextClue={handleJumpNextClue}
-        playSound={playSound}
-        handlePlaySound={handlePlaySound}
-        showTimer={showTimer}
-        handleTimerVisibility={handleTimerVisibility}
-        showWarning={showWarning}
-        handleWarnings={handleWarnings}
-        showPuzzleMilestone={showPuzzleMilestone}
-        handleMilestone={handleMilestone}
-        //handler for other buttons
-        handleClearIncomplete={handleClearIncomplete}
-        handleClearWord={handleClearWord}
-        handleClearPuzzle={handleClearPuzzle}
-        revealGrid={revealGrid}
-        revealWord={revealWord}
-        revealPuzzle={revealPuzzle}
-        handleAutoCheck={handleAutoCheck}
-        checkGrid={checkGrid}
-        checkWord={checkWord}
-        checkPuzzle={checkPuzzle}
-        handlePencilChange={handlePencilChange}
-        pencil={pencil}
-      />
-      <HeroComponent
-        data={grid}
-        updateGrid={updateGrid}
-        Clues={Clues}
-        isRebus={isRebus}
-        resetRebus={resetRebus}
-        selectedDirection={selectedDirection}
-        spaceBarDirection={spaceBarDirection}
-        backSpaceDirection={backSpaceDirection}
-        skipWords={skipWords}
-        findFirstBlank={findFirstBlank}
-        jumpNextClue={jumpNextClue}
-        handleCurrentDirectionChange={handleCurrentDirectionChange}
-        helperData={helperGrid}
-        autoCheck={autoCheck}
-      />
-      {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
-    </div>
+    <>
+      <BrowserView>
+        <div className="relative ">
+          <Header
+            //Handler for settings
+            toggleRebus={toggleRebus}
+            selectedDirection={selectedDirection}
+            handleDirectionChange={handleDirectionChange}
+            spaceBarDirection={spaceBarDirection}
+            handleSpaceBarPress={handleSpaceBarPress}
+            backSpaceDirection={backSpaceDirection}
+            handleBackSpaceClick={handleBackSpaceClick}
+            skipWords={skipWords}
+            handleSkipWords={handleSkipWords}
+            skipPencilWords={skipPencilWords}
+            handleskipPencilWords={handleskipPencilWords}
+            findFirstBlank={findFirstBlank}
+            handleFindBlank={handleFindBlank}
+            jumpNextClue={jumpNextClue}
+            handleJumpNextClue={handleJumpNextClue}
+            playSound={playSound}
+            handlePlaySound={handlePlaySound}
+            showTimer={showTimer}
+            handleTimerVisibility={handleTimerVisibility}
+            showWarning={showWarning}
+            handleWarnings={handleWarnings}
+            showPuzzleMilestone={showPuzzleMilestone}
+            handleMilestone={handleMilestone}
+            //handler for other buttons
+            handleClearIncomplete={handleClearIncomplete}
+            handleClearWord={handleClearWord}
+            handleClearPuzzle={handleClearPuzzle}
+            revealGrid={revealGrid}
+            revealWord={revealWord}
+            revealPuzzle={revealPuzzle}
+            handleAutoCheck={handleAutoCheck}
+            checkGrid={checkGrid}
+            checkWord={checkWord}
+            checkPuzzle={checkPuzzle}
+            handlePencilChange={handlePencilChange}
+            pencil={pencil}
+          />
+          <HeroComponent
+            data={grid}
+            updateGrid={updateGrid}
+            Clues={Clues}
+            isRebus={isRebus}
+            resetRebus={resetRebus}
+            selectedDirection={selectedDirection}
+            spaceBarDirection={spaceBarDirection}
+            backSpaceDirection={backSpaceDirection}
+            skipWords={skipWords}
+            findFirstBlank={findFirstBlank}
+            jumpNextClue={jumpNextClue}
+            handleCurrentDirectionChange={handleCurrentDirectionChange}
+            helperData={helperGrid}
+            autoCheck={autoCheck}
+          />
+          {/* <CrosswordGrid data={grid} handleInput={handleInput} />; */}
+        </div>
+      </BrowserView>
+      <MobileView>
+        <div className="relative ">
+          <MobileHeader
+            toggleRebus={toggleRebus}
+            selectedDirection={selectedDirection}
+            handleDirectionChange={handleDirectionChange}
+            spaceBarDirection={spaceBarDirection}
+            handleSpaceBarPress={handleSpaceBarPress}
+            backSpaceDirection={backSpaceDirection}
+            handleBackSpaceClick={handleBackSpaceClick}
+            skipWords={skipWords}
+            handleSkipWords={handleSkipWords}
+            skipPencilWords={skipPencilWords}
+            handleskipPencilWords={handleskipPencilWords}
+            findFirstBlank={findFirstBlank}
+            handleFindBlank={handleFindBlank}
+            jumpNextClue={jumpNextClue}
+            handleJumpNextClue={handleJumpNextClue}
+            playSound={playSound}
+            handlePlaySound={handlePlaySound}
+            showTimer={showTimer}
+            handleTimerVisibility={handleTimerVisibility}
+            showWarning={showWarning}
+            handleWarnings={handleWarnings}
+            showPuzzleMilestone={showPuzzleMilestone}
+            handleMilestone={handleMilestone}
+            //handler for other buttons
+            handleClearIncomplete={handleClearIncomplete}
+            handleClearWord={handleClearWord}
+            handleClearPuzzle={handleClearPuzzle}
+            revealGrid={revealGrid}
+            revealWord={revealWord}
+            revealPuzzle={revealPuzzle}
+            handleAutoCheck={handleAutoCheck}
+            checkGrid={checkGrid}
+            checkWord={checkWord}
+            checkPuzzle={checkPuzzle}
+            handlePencilChange={handlePencilChange}
+            pencil={pencil}
+          />
+        </div>
+      </MobileView>
+    </>
   );
 };
 

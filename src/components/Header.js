@@ -43,9 +43,9 @@ const Header = ({
   pencil,
   handlePencilChange,
 }) => {
-  const [time, setTime] = useState(0); // Time in seconds
-  const [isRunning, setIsRunning] = useState(true); // Controls whether the stopwatch is running
-  const timerRef = useRef(null); // Reference to the timer interval
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(true);
+  const timerRef = useRef(null);
 
   const [showClearMenu, setShowClearMenu] = useState(false);
   const [showRevealMenu, setShowRevealMenu] = useState(false);
@@ -87,6 +87,7 @@ const Header = ({
     startTimer();
     handleClearPuzzle();
   };
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -264,6 +265,20 @@ const Header = ({
                     </p>
                   </div>
                 )}
+                {/* {showAutoMenu && (
+                  <div className="border-box h-auto w-auto  mt-10 flex-col gap-4 absolute z-50 bg-blue-50  justify-between items-center shadow-lg">
+                    <p
+                      onClick={() => {
+                        setShowAutoMenu(false);
+                        setAutoCheck(false);
+                        handleAutoCheck(false);
+                      }}
+                      className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs flex items-center"
+                    >
+                      <TiTick /> Autocheck
+                    </p>
+                  </div>
+                )} */}
               </p>
             )}
             <div
@@ -286,101 +301,8 @@ const Header = ({
         </div>
       </div>
 
-      {/* {showClearMenu && (
-        <div
-          onClick={clearMenuClick}
-          className="border-box h-auto w-auto flex-col gap-4 absolute  right-40 mr-6 z-10 bg-blue-50  justify-between items-center shadow-lg"
-        >
-          <p
-            onClick={handleClearIncomplete}
-            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
-          >
-            Incomplete
-          </p>
-          <p
-            onClick={handleClearWord}
-            className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
-          >
-            Word
-          </p>
-          <p
-            onClick={handleClearPuzzle}
-            className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
-          >
-            Puzzle
-          </p>
-          <p
-            onClick={resetTimer}
-            className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
-          >
-            Puzzle & Timer
-          </p>
-        </div>
-      )} */}
-
-      {/* {showRevealMenu && (
-        <div
-          onClick={revealMenuClick}
-          className="border-box h-auto w-auto   flex-col gap-4 absolute right-20 mr-16 z-10 bg-blue-50  justify-between items-center shadow-lg"
-        >
-          <p
-            onClick={revealGrid}
-            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
-          >
-            Square
-          </p>
-          <p
-            onClick={revealWord}
-            className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
-          >
-            Word
-          </p>
-          <p
-            onClick={revealPuzzle}
-            className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
-          >
-            Puzzle
-          </p>
-        </div>
-      )} */}
-
-      {/* {showCheckMenu && (
-        <div
-          onClick={() => setShowCheckMenu(false)}
-          className="border-box h-auto w-auto flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg"
-        >
-          <p
-            onClick={() => {
-              handleAutoCheck(true);
-              setAutoCheck(true);
-            }}
-            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
-          >
-            Autocheck
-          </p>
-          <p
-            onClick={checkGrid}
-            className="py-2 hover:bg-blue-400 hover:text-white cursor-pointer px-2 box-border border-b-2 text-xs"
-          >
-            Square
-          </p>
-          <p
-            onClick={checkWord}
-            className="py-2 hover:bg-blue-400 hover:text-white  cursor-pointer px-2 box-border border-b-2 text-xs"
-          >
-            Word
-          </p>
-          <p
-            onClick={checkPuzzle}
-            className="box-border py-2 cursor-pointer px-2 hover:bg-blue-400 hover:text-white  border-b-2 text-xs"
-          >
-            Puzzle
-          </p>
-        </div>
-      )} */}
-
       {showAutoMenu && (
-        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-10 mr-4 z-10 bg-blue-50  justify-between items-center shadow-lg">
+        <div className="border-box h-auto w-auto  flex-col gap-4 absolute right-8 mr-3 lg:right-40 md:right-10 md:mr-4 lg:mr-[50px] z-10 bg-blue-50  justify-between items-center shadow-lg">
           <p
             onClick={() => {
               setShowAutoMenu(false);
