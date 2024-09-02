@@ -628,7 +628,7 @@ const MobileHeroComponent = ({
   };
 
   return (
-    <div className=" w-full h-[85vh] gap-2 mt-4 mb-4">
+    <div className=" w-full h-[80vh] gap-2 mt-4 mb-4">
       <div className="h-full w-full  flex flex-col justify-between items-center gap-10 relative mt-5">
         <div>
           <MobileCrosswordGrid
