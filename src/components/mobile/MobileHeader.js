@@ -5,6 +5,7 @@ import { GiCarWheel } from "react-icons/gi";
 import MobileSettingsModal from "./MobileSettingsModal";
 import { TiTick } from "react-icons/ti";
 import MobilePauseModal from "./MobilePauseModal";
+import MobileHamburgerMenu from "./MobileHamburgerMenu";
 
 const MobileHeader = ({
   toggleRebus,
@@ -48,6 +49,7 @@ const MobileHeader = ({
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
   const [displaySettings, setDisplaySettings] = useState(false);
+  const [displayHamburger, setDisplayHamburger] = useState(false);
   const [showOptions1, setShowOptions1] = useState(false);
   const [showOptions2, setShowOptions2] = useState(false);
   const [lastSelectedOption, setLastSelectedOption] = useState("option1");
@@ -99,6 +101,10 @@ const MobileHeader = ({
     setDisplaySettings(!displaySettings);
   };
 
+  const handleDisplayHamburger = () => {
+    setDisplayHamburger(!displayHamburger);
+  };
+
   const handleOptionsClick = () => {
     if (showOptions1) {
       setShowOptions1(!showOptions1);
@@ -116,7 +122,7 @@ const MobileHeader = ({
   return (
     <>
       <div className="top-0 left-0 h-12 border-b-[1px] border-t-[1px] border-black w-full bg-slate-50 z-10 text-xs font-medium px-1 py-2 flex justify-between  items-center">
-        <div>
+        <div onClick={handleDisplayHamburger}>
           <RxHamburgerMenu size={22} />
         </div>
 
@@ -299,6 +305,10 @@ const MobileHeader = ({
       )}
 
       {!isRunning && <MobilePauseModal handleStartPause={handleStartPause} />}
+
+      {displayHamburger && (
+        <MobileHamburgerMenu handleDisplayHamburger={handleDisplayHamburger} />
+      )}
     </>
   );
 };
