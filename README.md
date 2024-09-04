@@ -2,6 +2,8 @@
 
 This is a fully responsive clone of the New York Times Puzzle website, built with React and styled using Tailwind CSS.
 
+Hosted Link - https://cam-com-assignment.vercel.app/
+
 ## Table of Contents
 
 - [Features](#features)
