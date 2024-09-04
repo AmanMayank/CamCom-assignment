@@ -10,7 +10,6 @@ Hosted Link - https://cam-com-assignment.vercel.app/
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Available Scripts](#available-scripts)
-- [Folder Structure](#folder-structure)
 
 ## Features
 
@@ -59,26 +58,3 @@ In the project directory, you can run:
 
 - **`npm start`**: Runs the app in development mode.
 - **`npm run build`**: Builds the app for production to the `build` folder.
-
-## Folder Structure
-
-nytimes-puzzle-clone/
-├── public/
-│ ├── index.html
-│ └── ...
-├── src/
-│ ├── assets/
-│ ├── components/
-│ ├── context/
-│ ├── pages/
-│ ├── styles/
-│ ├── utils/
-│ ├── App.js
-│ └── index.js
-├── tailwind.config.js
-├── package.json
-└── README.md
-
-```
-
-```
