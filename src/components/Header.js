@@ -29,7 +29,7 @@ const Header = ({
   handleWarnings,
   showPuzzleMilestone,
   handleMilestone,
-
+  handleResetDefault,
   //handler for other buttons
   handleClearIncomplete,
   handleClearWord,
@@ -342,6 +342,7 @@ const Header = ({
           handleWarnings={handleWarnings}
           showPuzzleMilestone={showPuzzleMilestone}
           handleMilestone={handleMilestone}
+          handleResetDefault={handleResetDefault}
         />
       )}
 

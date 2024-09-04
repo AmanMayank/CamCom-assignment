@@ -30,7 +30,7 @@ const MobileHeader = ({
   handleWarnings,
   showPuzzleMilestone,
   handleMilestone,
-
+  handleResetDefault,
   //handler for other buttons
   handleClearIncomplete,
   handleClearWord,
@@ -294,6 +294,7 @@ const MobileHeader = ({
           handleWarnings={handleWarnings}
           showPuzzleMilestone={showPuzzleMilestone}
           handleMilestone={handleMilestone}
+          handleResetDefault={handleResetDefault}
         />
       )}
 

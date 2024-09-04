@@ -25,6 +25,7 @@ const MobileSettingsModal = ({
   handleWarnings,
   showPuzzleMilestone,
   handleMilestone,
+  handleResetDefault,
 }) => {
   return (
     <div className="top-0 left-0 right-0 bottom-0 w-full h-[95vh]  fixed z-30 mx-auto flex backdrop-blur-sm items-end justify-end ">
@@ -151,7 +152,10 @@ const MobileSettingsModal = ({
           </div>
 
           <div className="w-full flex flex-col justify-center gap-y-3 items-center mx-auto mt-4 pb-4">
-            <button className="border-black rounded-3xl border-2 px-4 py-2 text-sm font-medium">
+            <button
+              onClick={handleResetDefault}
+              className="border-black rounded-3xl border-2 px-4 py-2 text-sm font-medium"
+            >
               Restore Defaults
             </button>
             <button

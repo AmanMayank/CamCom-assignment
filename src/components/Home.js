@@ -78,6 +78,20 @@ const Home = () => {
   const [autoCheck, setAutoCheck] = useState(false);
   const [pencil, setPencil] = useState(false);
 
+  const handleResetDefault = () => {
+    setSelectedDirection("Stay in the same");
+    setSpacebarDirection("clear current");
+    setBackSpaceDirection(false);
+    setSkipWords(true);
+    setSkipPencilWords(true);
+    setFindFirstBlank(true);
+    setJumpNextClue(true);
+    setPlaySound(false);
+    setShowTimer(true);
+    setShowWarning(true);
+    setShowPuzzleMilestone(false);
+  };
+
   const handleDirectionChange = (event) => {
     setSelectedDirection(event.target.value);
   };
@@ -465,6 +479,7 @@ const Home = () => {
             handleWarnings={handleWarnings}
             showPuzzleMilestone={showPuzzleMilestone}
             handleMilestone={handleMilestone}
+            handleResetDefault={handleResetDefault}
             //handler for other buttons
             handleClearIncomplete={handleClearIncomplete}
             handleClearWord={handleClearWord}
@@ -525,6 +540,7 @@ const Home = () => {
             handleWarnings={handleWarnings}
             showPuzzleMilestone={showPuzzleMilestone}
             handleMilestone={handleMilestone}
+            handleResetDefault={handleResetDefault}
             //handler for other buttons
             handleClearIncomplete={handleClearIncomplete}
             handleClearWord={handleClearWord}
