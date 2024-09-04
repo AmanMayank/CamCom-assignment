@@ -1,4 +1,4 @@
-# New York Times Puzzle Clone
+# New York Times Puzzle
 
 This is a fully responsive clone of the New York Times Puzzle website, built with React and styled using Tailwind CSS.
 
